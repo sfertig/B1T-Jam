@@ -50,7 +50,9 @@ async def main():
 
     while True:
         if state == TITLE_SCREEN: state = await Title_screen(screen, clock).run()
-        elif state == SHUT_DOWN: break
+        elif state == SHUT_DOWN and not IS_WEB: break #web version should not fully shut down
     pygame.quit()
 
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())
+

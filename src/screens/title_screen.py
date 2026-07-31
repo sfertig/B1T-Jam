@@ -26,7 +26,7 @@ class Title_screen:
             
             self.update()
             self.render()
-            asyncio.sleep(0)
+            await asyncio.sleep(0)
 
     def update(self):
         self.dt = self.clock.tick(FPS)/1000.0
