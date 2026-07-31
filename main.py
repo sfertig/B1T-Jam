@@ -4,7 +4,7 @@ import sys
 import os
 
 from src.codes import *
-from src.screens import Title_screen
+from src.screens import *
 from src.utils import Assets
 
 IM = "assets/images/"
@@ -22,6 +22,8 @@ def load_assets():
     Assets.animations["player_walk_left"].flip_h()
     Assets.new_anim_nIMG("player_walk_front", size=16, fps=3, path=IM+"player.png", rect=(32, 16, 32, 16))
     Assets.new_anim_nIMG("player_walk_back", size=16, fps=3, path=IM+"player.png", rect=(32, 32, 32, 16))
+    #images
+    Assets.new_image("game_bg", IM+"bg_image.png")
 
 
 pygame.init()
@@ -51,6 +53,7 @@ async def main():
     while True:
         if state == TITLE_SCREEN: state = await Title_screen(screen, clock).run()
         elif state == SHUT_DOWN and not IS_WEB: break #web version should not fully shut down
+        elif state == GAME_SCREEN: state = await Game_screen(screen, clock).run()
     pygame.quit()
 
 if __name__ == "__main__":

@@ -3,9 +3,11 @@ import pygame
 
 from ..codes import *
 
-from ..utils import Keys, Vector2D
+from ..utils import Keys, Vector2D, Assets
 
-class Title_screen:
+from ..objects import Player
+
+class Game_screen:
     def __init__(self, screen, clock):
         self.screen: pygame.Surface = screen
         self.clock: pygame.time.Clock = clock
@@ -14,6 +16,9 @@ class Title_screen:
 
         self.dt = 0.0
 
+        self.p = Player(48, 160)
+
+        self.cam = Vector2D(0, 0)
 
     async def run(self):
         self.return_code = None
@@ -35,13 +40,15 @@ class Title_screen:
                 self.return_code =  SHUT_DOWN
 
         if Keys.is_pressed(Keys.escape, events): self.return_code = SHUT_DOWN
-        elif Keys.is_pressed(Keys.enter, events): self.return_code = GAME_SCREEN
+
+        self.p.update(self.dt, events)
 
 
     def render(self):
         #clear
         self.screen.fill(COLOR_1)
-
+        self.screen.blit(Assets.get_image("game_bg"), (Vector2D(0, 0)-self.cam).to_int())
         #render
+        self.p.render(self.screen, self.cam)
         #update
         pygame.display.flip()
