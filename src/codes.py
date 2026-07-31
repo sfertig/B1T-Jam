@@ -3,3 +3,6 @@ TITLE_SCREEN = 1
 
 FPS = 60
 
+COLOR_1 = (0, 0, 0)
+COLOR_2 = (255, 255, 255)
+

@@ -3,6 +3,10 @@ import pygame
 
 from ..codes import *
 
+from ..utils import Keys, Vector2D
+
+from ..objects import Player
+
 class Title_screen:
     def __init__(self, screen, clock):
         self.screen: pygame.Surface = screen
@@ -12,7 +16,10 @@ class Title_screen:
 
         self.dt = 0.0
 
+        self.p = Player(0, 0)
+
     async def run(self):
+        self.return_code = None
         while True:
             if self.return_code is not None:
                 return self.return_code
@@ -22,7 +29,7 @@ class Title_screen:
             asyncio.sleep(0)
 
     def update(self):
-        self.dt = self.clock.tick(FPS)
+        self.dt = self.clock.tick(FPS)/1000.0
 
         events = pygame.event.get().copy()
 
@@ -30,10 +37,16 @@ class Title_screen:
             if event.type == pygame.QUIT:
                 self.return_code =  SHUT_DOWN
 
+        if Keys.is_pressed(Keys.escape, events): self.return_code = SHUT_DOWN
+
+        self.p.update(self.dt, events)
+
+
     def render(self):
-        #cleear
-        self.screen.fill((0, 0, 0)) # TODO: remove for final colors
+        #clear
+        self.screen.fill(COLOR_2)
 
         #render
-
+        self.p.render(self.screen, Vector2D(0, 0))
         #update
+        pygame.display.flip()
