@@ -61,6 +61,11 @@ class _assets:
 
     def new_animation(self, name, image, size=16, fps=3):
         self.animations[name] = Animation(image, size, fps)
+    def new_anim_nIMG(self, name, size=16, fps=3, path=None, rect=None, scale=1.0, colorKey=(0, 0, 0), sWidth=None, sHeight=None):
+        #create image
+        self.new_image(name, path, rect, scale, colorKey, sWidth, sHeight)
+        #create animation
+        self.new_animation(name, self.images[name], size, fps)
 
     #getters
     def get_image(self, name):
