@@ -44,7 +44,7 @@ class Title_screen:
 
     def render(self):
         #clear
-        self.screen.fill(COLOR_2)
+        self.screen.fill(COLOR_1)
 
         #render
         self.p.render(self.screen, Vector2D(0, 0))

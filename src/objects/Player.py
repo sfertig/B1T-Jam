@@ -7,7 +7,21 @@ class Player:
     def __init__(self, x, y):
         self.pos = Vector2D(x, y)
         self.vel = Vector2D(0, 0)
-        self.speed = 200
+        self.speed = 50
+
+        #set up animation manager
+        anims = {
+            "idle_right": Assets.get_animation("player_idle_right"),
+            "idle_left": Assets.get_animation("player_idle_left"),
+            "idle_front": Assets.get_animation("player_idle_front"),
+            "idle_back": Assets.get_animation("player_idle_back"),
+            "walk_right": Assets.get_animation("player_walk_right"),
+            "walk_left": Assets.get_animation("player_walk_left"),
+            "walk_front": Assets.get_animation("player_walk_front"),
+            "walk_back": Assets.get_animation("player_walk_back"),
+        }
+        self.manager = AnimationManager(anims, "idle_front")
+        self.dir = "front"
 
     def rect(self):
         return pygame.Rect(self.pos.to_int(), (16, 16))
@@ -19,7 +33,22 @@ class Player:
         if Keys.is_held(Keys.s): self.vel.y = self.speed
         if Keys.is_held(Keys.d): self.vel.x = self.speed
 
+        self.update_anim()
+
+    def update_anim(self):
+        #update dir
+        if self.vel.x < 0: self.dir = "left"
+        elif self.vel.x > 0: self.dir = "right"
+        elif self.vel.y < 0: self.dir = "back"
+        elif self.vel.y > 0: self.dir = "front"
+
+        #update animation
+        if self.vel.x == 0 and self.vel.y == 0: self.manager.change_anim("idle_"+self.dir)
+        else: self.manager.change_anim("walk_"+self.dir)
+
+
     def update(self, dt, events):
+        self.manager.update(dt)
         self.input(events)
 
         self.pos += (self.vel*dt)
@@ -27,6 +56,6 @@ class Player:
 
 
     def render(self, screen, cam: Vector2D):
-        r = self.rect()
-        r.topleft = (self.pos-cam).to_int()
-        pygame.draw.rect(screen, "green", r, 1)
+        image = self.manager.get_image()
+
+        screen.blit(image, (self.pos - cam).to_int())
