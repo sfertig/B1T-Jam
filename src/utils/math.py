@@ -30,3 +30,12 @@ class Vector2D:
             return Vector2D(self.x / other.x, self.y / other.y)
         else:
             return Vector2D(self.x / other, self.y / other)
+
+
+def on_cam(pos, dim, cam, screen_size):
+    if pos.x + dim.x < cam.x: return False
+    if pos.x > cam.x + screen_size.x: return False
+    if pos.y + dim.y < cam.y: return False
+    if pos.y > cam.y + screen_size.y: return False
+    return True
+
