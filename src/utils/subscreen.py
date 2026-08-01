@@ -20,6 +20,10 @@ class SubScreen:
     def local_mouse_pos(self):
         return Vector2D(*pygame.mouse.get_pos()) - self.pos
 
+    def get_global_rect(self, rect):
+        #returns a rect with the position of the subscreen added to it
+        return pygame.Rect((self.pos.x + rect.x, self.pos.y + rect.y), rect.size)
+
 
     def render(self, cam: Vector2D = Vector2D(0, 0)):
         self._screen.blit(self.screen, (self.pos - cam).to_int())
