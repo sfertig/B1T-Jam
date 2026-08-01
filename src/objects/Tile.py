@@ -67,7 +67,7 @@ class Tile:
             elif self.type == "grown":
                 self.set_timer(MIN_REST_TIME, MAX_REST_TIME, cool=True)
                 self.type = "resting"
-                player.plants += 1
+                player.plants += random.randint(1, 3)
                 self.set_image()
             elif self.type == "resting" and player.hoe_durability > 0:
                 self.set_timer(MIN_TILLED_TIME, MAX_TILLED_TIME, cool=True)
