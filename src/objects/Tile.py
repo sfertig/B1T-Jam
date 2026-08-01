@@ -77,7 +77,7 @@ class Tile:
                 self.set_image()
                 self.set_timer()
 
-        if self.show_btn and Keys.is_pressed(Keys.e, events):
+        if self.show_btn and (Keys.is_pressed(Keys.e, events) or Keys.is_pressed(Keys.space, events)):
             if self.type == "tilled" and player.take_seeds(1):
                 self.type = "growing"
                 self.set_image()
