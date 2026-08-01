@@ -5,6 +5,7 @@ from ..utils import Vector2D, Assets, Keys, Timer
 from .Player import Player
 
 TILLING_COST = 10
+MIN_TILLING_COST = 1
 DEAD_COST = 1
 
 MIN_GROW_TIME = 20

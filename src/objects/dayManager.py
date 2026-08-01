@@ -1,6 +1,7 @@
 import pygame
 
 from .Player import ProgressBar, Player
+from .Tile import TILLING_COST, MIN_TILLING_COST
 
 from ..utils import Vector2D, Assets, Keys, Timer, SubScreen
 
@@ -83,15 +84,19 @@ class House:
 class Shop:
     def __init__(self, screen, cam):
         self.image = Assets.get_image("shop")
-        self.subscreen = SubScreen(-370, 10, 272, 100, "black", screen)
+        self.subscreen = SubScreen(-370, 10, 272, 128, "black", screen)
         self.screen = self.subscreen.screen
         self.seeds_rect = pygame.Rect(16, 16, 32, 16)
         self.hoe_rect = pygame.Rect(112, 16, 32, 16)
         self.fertaliser_rect = pygame.Rect(64, 16, 32, 16)
         self.mouse_down = False
         self.cam: Vector2D = cam
+        self.upgrade_hoe_rect = pygame.Rect(16, 48, 39, 16)
 
     def handle_shop(self, player: Player):
+        global TILLING_COST
+        global MIN_TILLING_COST
+
         if self.seeds_rect.collidepoint(self.subscreen.local_mouse_pos(self.cam).to_int()) and player.seeds < player.max_seeds:
             if player.take_plants(1): 
                 player.add_seeds(player.max_seeds)
@@ -102,7 +107,12 @@ class Shop:
 
         if self.fertaliser_rect.collidepoint(self.subscreen.local_mouse_pos(self.cam).to_int()) and player.fertilizer < player.max_fertilizer:
             if player.take_plants(1): 
-                player.add_fertilizer(player.max_fertilizer)
+                player.aTILLING_COST1dd_fertilizer(player.max_fertilizer)
+
+        if self.upgrade_hoe_rect.collidepoint(self.subscreen.local_mouse_pos(self.cam).to_int()) and player.hoe_durability == 100:
+            if player.take_plants(5): 
+                TILLING_COST //=2
+                TILLING_COST = max(MIN_TILLING_COST, TILLING_COST)
 
 
     def update(self, dt, events, player):

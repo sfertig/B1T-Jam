@@ -30,7 +30,7 @@ class Player:
         self.fertilizer = 2
         self.max_fertilizer = 5
         self.plants = 5
-        self.max_plants = 10
+        self.max_plants = 15
 
         self.inventory = PlayerInventory(self, screen)
 
