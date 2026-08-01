@@ -48,6 +48,12 @@ class Tile:
         self.timer = Timer(random.randint(min, max))
         self.cooldown = cool
 
+    def set_type(self, type):
+        if type not in ["dead", "resting", "tilled", "growing", "grown", "none"]:
+            raise ValueError(f"Invalid tile type: {type}")
+        self.type = type
+        self.set_image()
+
     def update(self, dt, events, player):
 
         self.set_show_btn(player)
@@ -93,14 +99,30 @@ class Tile:
             pygame.draw.rect(screen, (255, 255, 255), r, 1)
             screen.blit(Assets.get_image("btn_e"), (self.pos - cam + Vector2D(0, -16)).to_int())
 
+
+MIN_NEW_TIME = 40
+MAX_NEW_TIME = 80
+
+
 class TileManager:
     def __init__(self):
         self.tiles: list[Tile] = []
         for y in range(32, 320, 16):
             for x in range(144, 576, 16):
-                self.tiles.append(Tile(x, y, "dead"))
+                self.tiles.append(Tile(x, y, "none"))
+        self.none = self.tiles.copy()
+        tile = random.choice(self.tiles)
+        tile.set_type("resting")
+        self.none.remove(tile)
+        self.timer = Timer(random.randint(MIN_NEW_TIME, MAX_NEW_TIME))
 
     def update(self, dt, events, player):
+        if self.timer.update(dt) and len(self.none) > 0:
+            tile = random.choice(self.none)
+            tile.set_type("resting")
+            self.none.remove(tile)
+            self.timer = Timer(random.randint(MIN_NEW_TIME, MAX_NEW_TIME))
+
         for tile in self.tiles:
             tile.update(dt, events, player)
 
