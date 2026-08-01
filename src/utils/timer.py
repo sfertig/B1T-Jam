@@ -14,6 +14,9 @@ class Timer:
     def stop(self):
         self.running = False
 
+    def get_time(self):
+        return self.elapsed
+
     def update(self, dt):
         if self.running:
             self.elapsed += dt

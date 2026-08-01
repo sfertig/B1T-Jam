@@ -5,12 +5,14 @@ from ..codes import *
 
 from ..utils import Keys, Vector2D, Assets
 
-from ..objects import Player, TileManager
+from ..objects import Player, TileManager, DayManager
 
 class Game_screen:
     def __init__(self, screen, clock):
         self.screen: pygame.Surface = screen
         self.clock: pygame.time.Clock = clock
+
+        self.day_manager = DayManager(self.screen)
 
         self.return_code = None
 
@@ -43,6 +45,7 @@ class Game_screen:
 
         if Keys.is_pressed(Keys.escape, events): self.return_code = SHUT_DOWN
 
+        self.day_manager.update(self.dt, events)
         self.p.update(self.dt, events)
         self.tile_manager.update(self.dt, events, self.p)
 
@@ -53,6 +56,8 @@ class Game_screen:
         self.screen.blit(Assets.get_image("game_bg"), (Vector2D(0, 0)-self.cam).to_int())
         #render
         self.tile_manager.render(self.screen, self.cam)
+        self.day_manager.render(self.screen, self.cam)
         self.p.render(self.screen, self.cam)
+
         #update
         pygame.display.flip()
