@@ -13,11 +13,6 @@ NIGHT_TIME = 6
 
 def gen_collisions():
     return [
-        pygame.Rect(-80, 0, 720, 16),
-        pygame.Rect(624, 0, 16, 360),
-        pygame.Rect(-80, 336, 720, 24),
-        pygame.Rect(-16, 179, 32, 181),
-        pygame.Rect(-16, 0, 130, 128),
     ]
 
 class Game_screen:
