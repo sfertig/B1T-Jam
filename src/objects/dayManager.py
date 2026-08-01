@@ -14,7 +14,7 @@ class DayManager:
         self.screen = self.subscreen.screen
         self.timer = Timer(DAY_LENGTH)
 
-    def update(self, dt, events):
+    def update(self, dt, events, player):
         self.timer.update(dt)
 
         self.bar.update(int(self.timer.get_time()))
@@ -30,9 +30,9 @@ class DayManager:
 class House:
     def __init__(self, screen, cam):
         self.image = Assets.get_image("house")
-        self.subscreen = SubScreen(-368, 0, 368, 360, "black", screen)
+        self.subscreen = SubScreen(-80, 0, 80, 352, "black", screen)
         self.screen = self.subscreen.screen
-        self.workbench_rect = pygame.Rect(304, 35, 43, 11)
+        self.workbench_rect = pygame.Rect(17, 35, 43, 11)
         self.show_workbench_btn = False
         self.shop = Shop(screen, cam)
         self.cam: Vector2D = cam
@@ -41,7 +41,7 @@ class House:
         r = self.subscreen.get_global_rect(self.workbench_rect.copy())
         if r.colliderect(player.rect()):
             self.show_workbench_btn = True
-            self.cam.y = -115
+            self.cam.y = -110
         else:
             self.show_workbench_btn = False
             self.cam.y = 0

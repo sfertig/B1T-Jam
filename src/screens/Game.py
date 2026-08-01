@@ -7,10 +7,20 @@ from ..utils import Keys, Vector2D, Assets
 
 from ..objects import *
 
+def gen_collisions():
+    return [
+        pygame.Rect(-80, 0, 720, 16),
+        pygame.Rect(624, 0, 16, 360),
+        pygame.Rect(-80, 336, 720, 24),
+        pygame.Rect(-16, 179, 32, 181),
+        pygame.Rect(-16, 0, 130, 128),
+    ]
+
 class Game_screen:
     def __init__(self, screen, clock):
         self.screen: pygame.Surface = screen
         self.clock: pygame.time.Clock = clock
+        self.collisions = gen_collisions()
 
         self.day_manager = DayManager(self.screen)
 
@@ -59,8 +69,8 @@ class Game_screen:
             self.pause_menu.active = self.paused
 
         if not self.paused:
-            self.day_manager.update(self.dt, events)
-            self.p.update(self.dt, events)
+            self.day_manager.update(self.dt, events, self.p)
+            self.p.update(self.dt, events, self.collisions)
             self.tile_manager.update(self.dt, events, self.p)
             self.house.update(self.dt, events, self.p)
         else:

@@ -38,6 +38,7 @@ def load_assets():
     Assets.new_image("pause_ui", IM+"pause_menu.png", colorKey=None)
     Assets.new_image("house", IM+"house.png", colorKey=None)
     Assets.new_image("shop", IM+"shop.png", colorKey=None)
+    Assets.new_image("death_menu", IM+"death_screen.png", colorKey=None)
     #font
     #Assets.new_font("font", FT+"pixelFont.ttf", 20)
 

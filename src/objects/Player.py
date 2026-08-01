@@ -58,13 +58,33 @@ class Player:
         else: self.manager.change_anim("walk_"+self.dir)
 
 
-    def update(self, dt, events):
+    def update(self, dt, events, rects: list[pygame.Rect]):
         self.manager.update(dt)
         self.inventory.update(dt, events)
         self.input(events)
 
-        self.pos += (self.vel*dt)
-        #TODO: add collision
+        #x collisions
+        self.pos.x += self.vel.x * dt
+        for rect in rects:
+            if self.rect().colliderect(rect):
+                if self.vel.x > 0: #right
+                    self.pos.x -= self.vel.x * dt
+                    self.vel.x = 0
+                elif self.vel.x < 0: #left
+                    self.pos.x -= self.vel.x * dt
+                    self.vel.x = 0
+        #y collisions
+        self.pos.y += self.vel.y * dt
+        for rect in rects:
+            if self.rect().colliderect(rect):
+                if self.vel.y > 0: #down
+                    self.pos.y -= self.vel.y * dt
+                    self.vel.y = 0
+                elif self.vel.y < 0: #up
+                    self.pos.y -= self.vel.y * dt
+                    self.vel.y = 0
+
+        
 
 
     def render(self, screen, cam: Vector2D):
