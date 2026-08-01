@@ -32,6 +32,7 @@ class Tile:
         self.show_btn = False
 
         self.timer = Timer(random.randint(MIN_GROW_TIME, MAX_GROW_TIME))
+        self.timer.elapsed = self.timer.duration #set inital hilight
         self.cooldown = False
 
     def set_image(self):
@@ -55,6 +56,12 @@ class Tile:
         self.type = type
         self.set_image()
 
+    def is_active(self):
+        #return is can be currently interacted with
+        if self.type == "grown": return True
+        if self.type in ["dead", "resting", "tilled", "dead"]: return self.timer.is_done()
+
+
     def update(self, dt, events, player: Player):
 
         self.set_show_btn(player)
@@ -75,6 +82,7 @@ class Tile:
                 self.type = "growing"
                 self.set_image()
                 player.seeds -= 1
+                self.set_timer()
             elif self.type == "grown" and player.add_plants(1):
                 self.set_timer(MIN_REST_TIME, MAX_REST_TIME, cool=True)
                 self.type = "resting"
@@ -90,16 +98,18 @@ class Tile:
 
     def render(self, screen, cam):
         screen.blit(self.image, (self.pos - cam).to_int())
-        
-        if self.show_btn:
+
+        if self.is_active():
             r = self.rect.copy()
             r.topleft = (self.pos - cam).to_int()
             pygame.draw.rect(screen, (255, 255, 255), r, 1)
+        
+        if self.show_btn:
             screen.blit(Assets.get_image("btn_e"), (self.pos - cam + Vector2D(0, -16)).to_int())
 
 
-MIN_NEW_TIME = 5
-MAX_NEW_TIME = 5
+MIN_NEW_TIME = 20
+MAX_NEW_TIME = 60
 
 
 class TileManager:
