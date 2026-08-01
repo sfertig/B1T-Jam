@@ -4,7 +4,7 @@ from .Player import ProgressBar, Player
 
 from ..utils import Vector2D, Assets, Keys, Timer, SubScreen
 
-DAY_LENGTH = 120 #seconds
+DAY_LENGTH = 5 #seconds
 
 class DayManager:
     def __init__(self, screen):
@@ -13,6 +13,7 @@ class DayManager:
         self.subscreen = SubScreen(128, 0, 80, 16, "black", screen)
         self.screen = self.subscreen.screen
         self.timer = Timer(DAY_LENGTH)
+
 
     def update(self, dt, events, player):
         self.timer.update(dt)

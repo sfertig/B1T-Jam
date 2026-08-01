@@ -28,3 +28,28 @@ class PauseMenu:
         self.screen.blit(self.image, (0, 0))
         #update
         self.subscreen.render()
+
+class DeathMenu:
+    def __init__(self, screen):
+        self.image = Assets.get_image("death_ui")
+        self.subscreen = SubScreen(192, 48, 240, 240, "black", screen)
+        self.screen = self.subscreen.screen
+        self.active = True
+
+        self.quit = pygame.Rect(39, 168, 161, 32)
+
+    def update(self, dt, events):
+        if pygame.mouse.get_pressed()[0]:
+            mouse_pos = self.subscreen.local_mouse_pos().to_int()
+            print(self.quit.topleft, mouse_pos)
+            if self.quit.collidepoint(mouse_pos):
+                self.active = False
+                return TITLE_SCREEN
+        return None
+
+    def render(self):
+        self.subscreen.clear()
+        #render
+        self.screen.blit(self.image, (0, 0))
+        #update
+        self.subscreen.render()

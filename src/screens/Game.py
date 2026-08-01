@@ -36,13 +36,19 @@ class Game_screen:
         self.tile_manager = TileManager()
 
         self.paused = False
+        self.death = False
         self.pause_menu = PauseMenu(self.screen)
+        self.death_menu = DeathMenu(self.screen)
 
     def update_cam(self):
         if self.p.pos.x < 0:
             self.cam.x = -370
         else:
             self.cam.x = 0
+
+    def detect_death(self):
+        if self.day_manager.bar.value >= self.day_manager.bar.max: self.death = True
+
 
 
     async def run(self):
@@ -64,21 +70,27 @@ class Game_screen:
             if event.type == pygame.QUIT:
                 self.return_code =  SHUT_DOWN
 
-        if Keys.is_pressed(Keys.escape, events):
+        if Keys.is_pressed(Keys.escape, events) and not self.death:
             self.paused = not self.paused
             self.pause_menu.active = self.paused
 
         if not self.paused:
             self.day_manager.update(self.dt, events, self.p)
+            self.detect_death()
             self.p.update(self.dt, events, self.collisions)
             self.tile_manager.update(self.dt, events, self.p)
             self.house.update(self.dt, events, self.p)
-        else:
+        elif self.paused:
             num = self.pause_menu.update(self.dt, events)
             if num is not None:
                 self.return_code = num
             else:
                 self.paused = self.pause_menu.active
+        if self.death: 
+            self.death_menu.update(self.dt, events)
+            if not self.death_menu.active:
+                self.return_code = TITLE_SCREEN
+
 
 
     def render(self):
@@ -94,6 +106,8 @@ class Game_screen:
 
         if self.paused:
             self.pause_menu.render()
+        elif self.death:
+            self.death_menu.render()
 
         #update
         pygame.display.flip()
