@@ -31,6 +31,7 @@ def load_assets():
     Assets.new_image("tile_grown", IM+"tiles.png", rect=(0, 16, 16, 16))
     #images - buttons
     Assets.new_image("btn_e", IM+"buttons.png", rect=(0, 0, 16, 16), colorKey=None)
+    Assets.new_image("inventory_ui", IM+"inventory_ui.png", colorKey=None)
 
 
 pygame.init()

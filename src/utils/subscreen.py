@@ -7,7 +7,7 @@ class SubScreen:
     def __init__(self, x, y, w, h, bgColor: None, displaySurface: pygame.Surface = None):
         self.pos = Vector2D(x, y)
         self.dim = Vector2D(w, h)
-        color = color
+        color = bgColor
         self.color = color
         self._screen = displaySurface
         if color == None: self.screen = pygame.Surface((w, h), pygame.SRCALPHA).convert_alpha()

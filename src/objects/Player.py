@@ -1,10 +1,10 @@
 import pygame
 
-from ..utils import Keys, Vector2D, Assets, AnimationManager
+from ..utils import Keys, Vector2D, Assets, AnimationManager, SubScreen
 
 
 class Player:
-    def __init__(self, x, y):
+    def __init__(self, x, y, screen):
         self.pos = Vector2D(x, y)
         self.vel = Vector2D(0, 0)
         self.speed = 50
@@ -24,6 +24,7 @@ class Player:
         self.dir = "front"
 
         #inventory / items
+        self.inventory = PlayerInventory(self, screen)
         self.seeds = 5
         self.hoe_durability = 100
         self.fertilizer = 2
@@ -55,6 +56,7 @@ class Player:
 
     def update(self, dt, events):
         self.manager.update(dt)
+        self.inventory.update(dt, events)
         self.input(events)
 
         self.pos += (self.vel*dt)
@@ -65,3 +67,22 @@ class Player:
         image = self.manager.get_image()
 
         screen.blit(image, (self.pos - cam).to_int())
+
+        self.inventory.render(screen, cam)
+
+class PlayerInventory:
+    def __init__(self, player: Player, screen: pygame.Surface):
+        self.player = player
+        self.image = Assets.get_image("inventory_ui")
+        self.subscreen = SubScreen(0, 0, self.image.get_width(), self.image.get_height(), "black", screen)
+
+    def update(self, dt, events):
+        pass
+
+    def render(self, screen, cam: Vector2D):
+        self.subscreen.clear()
+        #render
+        self.subscreen.screen.blit(self.image, (0, 0))
+        #update
+        self.subscreen.render(cam)
+

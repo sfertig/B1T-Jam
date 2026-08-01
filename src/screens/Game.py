@@ -16,7 +16,7 @@ class Game_screen:
 
         self.dt = 0.0
 
-        self.p = Player(48, 160)
+        self.p = Player(48, 160, self.screen)
 
         self.cam = Vector2D(0, 0)
 
