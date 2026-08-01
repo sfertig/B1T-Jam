@@ -110,7 +110,10 @@ class TileManager:
             for x in range(144, 576, 16):
                 self.tiles.append(Tile(x, y, "none"))
         self.none = self.tiles.copy()
-        tile = random.choice(self.tiles)
+        while True:
+            tile = random.choice(self.tiles)
+            if tile.pos.x == 144: break
+            
         tile.set_type("resting")
         self.none.remove(tile)
         self.timer = Timer(random.randint(MIN_NEW_TIME, MAX_NEW_TIME))

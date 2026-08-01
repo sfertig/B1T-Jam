@@ -4,7 +4,8 @@ from .Player import ProgressBar, Player
 
 from ..utils import Vector2D, Assets, Keys, Timer, SubScreen
 
-DAY_LENGTH = 5 #seconds
+DAY_LENGTH = 200 #seconds
+SLEEP_WIDTH = 45
 
 class DayManager:
     def __init__(self, screen):
@@ -19,6 +20,11 @@ class DayManager:
         self.timer.update(dt)
 
         self.bar.update(int(self.timer.get_time()))
+
+    def sleep(self):
+        self.day += 1
+        self.bar.value = 0
+        self.timer = Timer(DAY_LENGTH)
 
     def render(self, screen, cam: Vector2D):
         self.subscreen.clear()
@@ -38,6 +44,9 @@ class House:
         self.shop = Shop(screen, cam)
         self.cam: Vector2D = cam
 
+        self.bed_rect = pygame.Rect(16, 288, 48, 16)
+        self.bed_show_e = False
+
     def update(self, dt, events, player):
         r = self.subscreen.get_global_rect(self.workbench_rect.copy())
         if r.colliderect(player.rect()):
@@ -49,6 +58,13 @@ class House:
 
         if self.show_workbench_btn:
             self.shop.update(dt, events, player)
+
+        #bed
+        r = self.subscreen.get_global_rect(self.bed_rect.copy())
+        if r.colliderect(player.rect()):
+            self.bed_show_e = True
+        else:
+            self.bed_show_e = False
         
 
     def render(self, screen, cam: Vector2D):
@@ -57,6 +73,10 @@ class House:
         self.screen.blit(self.image, (0, 0))
         if self.show_workbench_btn:
             self.shop.render(screen, cam)
+
+        if self.bed_show_e:
+            self.screen.blit(Assets.get_image("btn_e"), Vector2D(32, 272).to_int())
+
         #update
         self.subscreen.render(cam)
 

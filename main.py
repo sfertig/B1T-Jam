@@ -39,6 +39,7 @@ def load_assets():
     Assets.new_image("house", IM+"house.png", colorKey=None)
     Assets.new_image("shop", IM+"shop.png", colorKey=None)
     Assets.new_image("death_ui", IM+"death_screen.png", colorKey=None)
+    Assets.new_image("sleep_ui", IM+"sleep_screen.png", colorKey=None)
     #font
     #Assets.new_font("font", FT+"pixelFont.ttf", 20)
 
