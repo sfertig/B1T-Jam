@@ -1,4 +1,5 @@
 import pygame
+import random
 
 from ..utils import Vector2D, Assets, Keys
 

@@ -3,5 +3,6 @@ from .assets import Assets
 from .math import Vector2D, on_cam
 from .input import Keys
 from .subscreen import SubScreen
+from .timer import Timer
 
-__all__ = ["Animation", "AnimationManager", "Assets", "Vector2D", "Keys", "SubScreen", "on_cam"]
+__all__ = ["Animation", "Timer", "AnimationManager", "Assets", "Vector2D", "Keys", "SubScreen", "on_cam"]
