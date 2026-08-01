@@ -26,6 +26,7 @@ class Player:
         #inventory / items
         self.seeds = 5
         self.hoe_durability = 100
+        self.fertilizer = 2
         self.plants = 0
 
     def rect(self):

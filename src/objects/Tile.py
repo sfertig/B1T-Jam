@@ -42,37 +42,42 @@ class Tile:
     def set_timer(self, min=MIN_GROW_TIME, max=MAX_GROW_TIME, cool=False):
         self.timer = Timer(random.randint(min, max))
         self.cooldown = cool
+        print(self.cooldown, cool)
 
     def update(self, dt, events, player):
-        if self.cooldown: print(self.cooldown)
+
         self.set_show_btn(player)
+
         if self.cooldown:
             self.timer.update(dt)
             if self.timer.is_done(): self.cooldown = False
+
         if self.type == "growing":
             self.timer.update(dt)
             if self.timer.is_done():
                 self.type = "grown"
                 self.set_image()
                 self.set_timer()
+
         if self.show_btn and Keys.is_pressed(Keys.e, events):
             if self.type == "tilled" and player.seeds > 0:
                 self.type = "growing"
                 self.set_image()
                 player.seeds -= 1
             elif self.type == "grown":
+                self.set_timer(MIN_REST_TIME, MAX_REST_TIME, cool=True)
                 self.type = "resting"
                 player.plants += 1
-                self.set_timer(MIN_REST_TIME, MAX_REST_TIME, cool=True)
                 self.set_image()
             elif self.type == "resting" and player.hoe_durability > 0:
+                self.set_timer(MIN_TILLED_TIME, MAX_TILLED_TIME, cool=True)
                 self.type = "tilled"
                 player.hoe_durability -= TILLING_COST
                 self.set_image()
-                self.set_timer(MIN_TILLED_TIME, MAX_TILLED_TIME, cool=True)
-            elif self.type == "dead" and player.hoe_durability > 0:
-                self.type = "tilled"
-                player.hoe_durability -= DEAD_COST
+            elif self.type == "dead" and player.fertilizer > 0:
+                self.set_timer(MIN_REST_TIME, MAX_REST_TIME, cool=True)
+                self.type = "resting"
+                player.fertilizer -= 1
                 self.set_image()
 
     def render(self, screen, cam):
