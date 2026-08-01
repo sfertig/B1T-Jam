@@ -23,6 +23,11 @@ class Player:
         self.manager = AnimationManager(anims, "idle_front")
         self.dir = "front"
 
+        #inventory / items
+        self.seeds = 5
+        self.hoe_durability = 100
+        self.plants = 0
+
     def rect(self):
         return pygame.Rect(self.pos.to_int(), (16, 16))
 

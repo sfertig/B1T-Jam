@@ -29,6 +29,8 @@ def load_assets():
     Assets.new_image("tile_tilled", IM+"tiles.png", rect=(0, 0, 16, 16))
     Assets.new_image("tile_growing", IM+"tiles.png", rect=(48, 0, 16, 16))
     Assets.new_image("tile_grown", IM+"tiles.png", rect=(0, 16, 16, 16))
+    #images - buttons
+    Assets.new_image("btn_e", IM+"buttons.png", rect=(0, 0, 16, 16), colorKey=None)
 
 
 pygame.init()
