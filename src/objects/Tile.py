@@ -2,6 +2,7 @@ import pygame
 import random
 
 from ..utils import Vector2D, Assets, Keys, Timer
+from .Player import Player
 
 TILLING_COST = 10
 DEAD_COST = 25
@@ -54,7 +55,7 @@ class Tile:
         self.type = type
         self.set_image()
 
-    def update(self, dt, events, player):
+    def update(self, dt, events, player: Player):
 
         self.set_show_btn(player)
 
@@ -70,21 +71,19 @@ class Tile:
                 self.set_timer()
 
         if self.show_btn and Keys.is_pressed(Keys.e, events):
-            if self.type == "tilled" and player.seeds > 0:
+            if self.type == "tilled" and player.take_seeds(1):
                 self.type = "growing"
                 self.set_image()
                 player.seeds -= 1
-            elif self.type == "grown":
+            elif self.type == "grown" and player.add_plants(1):
                 self.set_timer(MIN_REST_TIME, MAX_REST_TIME, cool=True)
                 self.type = "resting"
-                player.plants += random.randint(1, 3)
                 self.set_image()
-            elif self.type == "resting" and player.hoe_durability > 0:
+            elif self.type == "resting" and player.hoe_durability > 0 and player.take_hoe_durability(TILLING_COST):
                 self.set_timer(MIN_TILLED_TIME, MAX_TILLED_TIME, cool=True)
                 self.type = "tilled"
-                player.hoe_durability -= TILLING_COST
                 self.set_image()
-            elif self.type == "dead" and player.fertilizer > 0:
+            elif self.type == "dead" and player.fertilizer > 0 and player.take_fertilizer(DEAD_COST):
                 self.set_timer(MIN_REST_TIME, MAX_REST_TIME, cool=True)
                 self.type = "resting"
                 player.fertilizer -= 1

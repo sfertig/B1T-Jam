@@ -17,8 +17,9 @@ class SubScreen:
         if self.color == None: self.screen.fill((0, 0, 0, 0))
         else: self.screen.fill(self.color)
 
-    def local_mouse_pos(self):
-        return Vector2D(*pygame.mouse.get_pos()) - self.pos
+    def local_mouse_pos(self, cam: Vector2D = Vector2D(0, 0)):
+        # Screen display position of the subscreen is (self.pos - cam)
+        return Vector2D(*pygame.mouse.get_pos()) - (self.pos - cam)
 
     def get_global_rect(self, rect):
         #returns a rect with the position of the subscreen added to it

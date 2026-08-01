@@ -31,6 +31,11 @@ class Vector2D:
         else:
             return Vector2D(self.x / other, self.y / other)
 
+def clamp(value, min, max):
+    if value < min: return min
+    if value > max: return max
+    return value
+
 
 def on_cam(pos, dim, cam, screen_size):
     if pos.x + dim.x < cam.x: return False

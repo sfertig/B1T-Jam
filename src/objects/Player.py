@@ -1,6 +1,6 @@
 import pygame
 
-from ..utils import Keys, Vector2D, Assets, AnimationManager, SubScreen, Text
+from ..utils import *
 
 
 class Player:
@@ -29,7 +29,7 @@ class Player:
         self.hoe_durability = 100
         self.fertilizer = 2
         self.max_fertilizer = 5
-        self.plants = 0
+        self.plants = 5
         self.max_plants = 10
 
         self.inventory = PlayerInventory(self, screen)
@@ -70,8 +70,69 @@ class Player:
     def render(self, screen, cam: Vector2D):
         image = self.manager.get_image()
         screen.blit(image, (self.pos - cam).to_int())
-        
+
         self.inventory.render(screen, cam)
+
+    #inventory funcs
+    #-seeds
+    def add_seeds(self, amount):
+        self.seeds += amount
+        if self.seeds > self.max_seeds: 
+            self.seeds = self.max_seeds
+            return False
+        return True
+    def take_seeds(self, amount):
+        self.seeds -= amount
+        if self.seeds < 0: 
+            self.seeds = 0
+            return False
+        return True
+
+    #-fertilizer
+    def add_fertilizer(self, amount):
+        num = self.fertilizer
+        self.fertilizer += amount
+        if self.fertilizer > self.max_fertilizer: 
+            self.fertilizer = num
+            return False
+        return True
+    def take_fertilizer(self, amount):
+        self.fertilizer -= amount
+        if self.fertilizer < 0: 
+            self.fertilizer = 0
+            return False
+        return True
+
+    #-plants
+    def add_plants(self, amount):
+        num = self.plants
+        self.plants += amount
+        if self.plants > self.max_plants: 
+            self.plants = num
+            return False
+        return True
+    def take_plants(self, amount):
+        self.plants -= amount
+        if self.plants < 0: 
+            self.plants = 0
+            return False
+        return True
+
+    #-hoe
+    def add_hoe_durability(self, amount):
+        self.hoe_durability += amount
+        print(self.hoe_durability)
+        if self.hoe_durability > 100: 
+            self.hoe_durability = 100
+            return False
+        return True
+    def take_hoe_durability(self, amount):
+        self.hoe_durability -= amount
+        if self.hoe_durability < 0: 
+            self.hoe_durability = 0
+            return False
+        return True
+
 
 class PlayerInventory:
     def __init__(self, player: Player, screen: pygame.Surface):

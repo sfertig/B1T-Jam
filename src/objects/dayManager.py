@@ -1,6 +1,6 @@
 import pygame
 
-from .Player import ProgressBar
+from .Player import ProgressBar, Player
 
 from ..utils import Vector2D, Assets, Keys, Timer, SubScreen
 
@@ -34,7 +34,7 @@ class House:
         self.screen = self.subscreen.screen
         self.workbench_rect = pygame.Rect(304, 35, 43, 11)
         self.show_workbench_btn = False
-        self.shop = Shop(screen)
+        self.shop = Shop(screen, cam)
         self.cam: Vector2D = cam
 
     def update(self, dt, events, player):
@@ -60,24 +60,43 @@ class House:
         self.subscreen.render(cam)
 
 class Shop:
-    def __init__(self, screen):
+    def __init__(self, screen, cam):
         self.image = Assets.get_image("shop")
         self.subscreen = SubScreen(-368, -105, 368, 100, "black", screen)
         self.screen = self.subscreen.screen
         self.seeds_rect = pygame.Rect(16, 16, 32, 16)
         self.hoe_rect = pygame.Rect(16, 38, 32, 16)
+        self.mouse_down = False
+        self.cam: Vector2D = cam
+
+    def handle_seeds(self, player: Player):
+        if self.seeds_rect.collidepoint(self.subscreen.local_mouse_pos(self.cam).to_int()) and player.seeds < player.max_seeds:
+            if player.take_plants(1): 
+                player.add_seeds(player.max_seeds)
+    def handle_hoe(self, player: Player):
+        if self.hoe_rect.collidepoint(self.subscreen.local_mouse_pos(self.cam).to_int()) and player.hoe_durability < 100:
+            if player.take_plants(1): 
+                player.add_hoe_durability(100)
+
 
     def update(self, dt, events, player):
-        pass
+        click = False
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                self.mouse_down = True
+            elif event.type == pygame.MOUSEBUTTONUP and event.button == 1: 
+                click = True
+                self.mouse_down = False
+
+        if click:
+            self.handle_seeds(player)
+            self.handle_hoe(player)
 
     def render(self, screen, cam: Vector2D):
         self.subscreen.clear()
         #render
         self.screen.blit(self.image, (0, 0))
 
-        #debug
-        pygame.draw.rect(self.screen, (255, 0, 0), self.seeds_rect, 1)
-        pygame.draw.rect(self.screen, (255, 0, 0), self.hoe_rect, 1)
         #update
         self.subscreen.render(cam)
 
