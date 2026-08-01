@@ -1,6 +1,6 @@
 import pygame
 
-from ..utils import Keys, Vector2D, Assets, AnimationManager, SubScreen
+from ..utils import Keys, Vector2D, Assets, AnimationManager, SubScreen, Text
 
 
 class Player:
@@ -24,11 +24,15 @@ class Player:
         self.dir = "front"
 
         #inventory / items
-        self.inventory = PlayerInventory(self, screen)
         self.seeds = 5
+        self.max_seeds = 10
         self.hoe_durability = 100
         self.fertilizer = 2
+        self.max_fertilizer = 5
         self.plants = 0
+        self.max_plants = 10
+
+        self.inventory = PlayerInventory(self, screen)
 
     def rect(self):
         return pygame.Rect(self.pos.to_int(), (16, 16))
@@ -75,14 +79,47 @@ class PlayerInventory:
         self.player = player
         self.image = Assets.get_image("inventory_ui")
         self.subscreen = SubScreen(0, 0, self.image.get_width(), self.image.get_height(), "black", screen)
+        #ui ellements
+        self.seed_bar = ProgressBar(10, 3, 9, 10, 0, self.player.max_seeds, self.player.seeds)
+        self.fertilizer_bar = ProgressBar(80, 3, 9, 10, 0, self.player.max_fertilizer, self.player.fertilizer)
+        self.plants_bar = ProgressBar(99, 3, 9, 10, 0, self.player.max_plants, self.player.plants)
+        self.hoe_bar = ProgressBar(34, 10, 33, 1, 0, 100, self.player.hoe_durability)
 
     def update(self, dt, events):
-        pass
+        self.seed_bar.update(self.player.seeds)
+        self.fertilizer_bar.update(self.player.fertilizer)
+        self.plants_bar.update(self.player.plants)
+        self.hoe_bar.update(self.player.hoe_durability)
 
     def render(self, screen, cam: Vector2D):
         self.subscreen.clear()
         #render
         self.subscreen.screen.blit(self.image, (0, 0))
+        self.seed_bar.render(self.subscreen.screen, Vector2D(0, 0))
+        self.fertilizer_bar.render(self.subscreen.screen, Vector2D(0, 0))
+        self.plants_bar.render(self.subscreen.screen, Vector2D(0, 0))
+        self.hoe_bar.render(self.subscreen.screen, Vector2D(0, 0))
         #update
         self.subscreen.render(cam)
+
+class ProgressBar:
+    def __init__(self, x, y, width, height, min, max, value):
+        self.pos = Vector2D(x, y)
+        self.dim = Vector2D(width, height)
+        self.min = min
+        self.max = max
+        self.value = value
+
+    def rect(self):
+        #get reletive how value is compared to min and max and width
+        rel_width = (self.value - self.min) / (self.max - self.min) * self.dim.x
+        return pygame.Rect(self.pos.to_int(), (rel_width, self.dim.y))
+
+    def update(self, value):
+        self.value = value
+
+    def render(self, screen, cam: Vector2D):
+        r = self.rect()
+        r.topleft = (self.pos - cam).to_int()
+        pygame.draw.rect(screen, (255, 255, 255), r)
 

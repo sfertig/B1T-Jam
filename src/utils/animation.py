@@ -69,7 +69,7 @@ class AnimationManager:
 
 class Text:
     def __init__(self, font, text, color, size, x, y):
-        self.font = font
+        self.font: pygame.font.Font = font
         self.text = text
         self.color = color
         self.size = size
