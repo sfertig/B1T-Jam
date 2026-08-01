@@ -17,6 +17,9 @@ class SubScreen:
         if self.color == None: self.screen.fill((0, 0, 0, 0))
         else: self.screen.fill(self.color)
 
+    def local_mouse_pos(self):
+        return Vector2D(*pygame.mouse.get_pos()) - self.pos
+
 
     def render(self, cam: Vector2D = Vector2D(0, 0)):
         self._screen.blit(self.screen, (self.pos - cam).to_int())
