@@ -53,12 +53,13 @@ class Game_screen:
 
     def detect_death(self):
         if self.day_manager.bar.value >= self.day_manager.bar.max: self.death = True
-    def detect_sleep(self, events):
+    async def detect_sleep(self, events):
         if self.house.bed_show_e:
             if Keys.is_pressed(Keys.e, events):
-                if self.day_manager.bar.rect().width > SLEEP_WIDTH: self.sleep_reset()
+                if self.day_manager.bar.rect().width > SLEEP_WIDTH: 
+                    await self.sleep_reset()
 
-    def sleep_reset(self):
+    async def sleep_reset(self):
         self.day_manager.sleep()
         #other night time things
         timer = Timer(NIGHT_TIME)
@@ -72,6 +73,8 @@ class Game_screen:
             #render stuff
             self.screen.blit(Assets.get_image("sleep_ui"), (0, 0))
             pygame.display.flip()
+
+            await asyncio.sleep(0)
         #you wake back up
 
 
@@ -82,11 +85,11 @@ class Game_screen:
             if self.return_code is not None:
                 return self.return_code
             
-            self.update()
+            await self.update()
             self.render()
             await asyncio.sleep(0)
 
-    def update(self):
+    async def update(self):
         self.dt = self.clock.tick(FPS)/1000.0
 
         events = pygame.event.get().copy()
@@ -116,7 +119,7 @@ class Game_screen:
             if not self.death_menu.active:
                 self.return_code = TITLE_SCREEN
 
-        self.detect_sleep(events)
+        await self.detect_sleep(events)
 
 
 
