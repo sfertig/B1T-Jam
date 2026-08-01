@@ -3,8 +3,9 @@
 class Timer:
     def __init__(self, duration):
         self.duration = duration
-        self.elapsed = 0
+        self.elapsed = 0.0
         self.running = False
+        self.start()
 
     def start(self):
         self.elapsed = 0
