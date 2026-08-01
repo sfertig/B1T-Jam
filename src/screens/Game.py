@@ -20,7 +20,7 @@ class Game_screen:
 
         self.cam = Vector2D(0, 0)
 
-        self.test = Tile(192, 160, "tilled")
+        self.test = Tile(192, 160, "dead")
 
     async def run(self):
         self.return_code = None

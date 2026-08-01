@@ -82,6 +82,10 @@ class Tile:
 
     def render(self, screen, cam):
         screen.blit(self.image, (self.pos - cam).to_int())
+        
         if self.show_btn:
+            r = self.rect.copy()
+            r.topleft = (self.pos - cam).to_int()
+            pygame.draw.rect(screen, (255, 255, 255), r, 1) #test
             screen.blit(Assets.get_image("btn_e"), (self.pos - cam + Vector2D(0, -16)).to_int())
 
