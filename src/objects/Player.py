@@ -110,10 +110,9 @@ class Player:
 
     #-fertilizer
     def add_fertilizer(self, amount):
-        num = self.fertilizer
         self.fertilizer += amount
         if self.fertilizer > self.max_fertilizer: 
-            self.fertilizer = num
+            self.fertilizer = self.max_fertilizer
             return False
         return True
     def take_fertilizer(self, amount):

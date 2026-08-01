@@ -5,7 +5,7 @@ from ..utils import Vector2D, Assets, Keys, Timer
 from .Player import Player
 
 TILLING_COST = 10
-DEAD_COST = 25
+DEAD_COST = 1
 
 MIN_GROW_TIME = 20
 MAX_GROW_TIME = 45
@@ -86,7 +86,6 @@ class Tile:
             elif self.type == "dead" and player.fertilizer > 0 and player.take_fertilizer(DEAD_COST):
                 self.set_timer(MIN_REST_TIME, MAX_REST_TIME, cool=True)
                 self.type = "resting"
-                player.fertilizer -= 1
                 self.set_image()
 
     def render(self, screen, cam):
@@ -125,25 +124,18 @@ class TileManager:
         return random.choice(["resting", "dead", "resting", "resting", "resting", "resting", "resting"])
 
     def get_new_tile(self):
-        # Filter 'none' tiles that have at least one adjacent non-none tile
         valid_candidates = []
 
         for tile in self.none:
             px, py = tile.pos.x, tile.pos.y
-            
-            # Check 4-directional cardinal neighbors (16 pixels away)
             for _t in self.tiles:
                 if _t.type != "none":
-                    # Check EXACT cardinal adjacencies (up, down, left, right)
-                    is_neighbor = (
-                        (abs(_t.pos.x - px) == 16 and _t.pos.y == py) or
-                        (abs(_t.pos.y - py) == 16 and _t.pos.x == px)
-                    )
+                    is_neighbor = ((abs(_t.pos.x - px) == 16 and _t.pos.y == py) or
+                        (abs(_t.pos.y - py) == 16 and _t.pos.x == px))
                     if is_neighbor:
                         valid_candidates.append(tile)
-                        break  # Found an adjacent active tile, move to next 'none' tile
+                        break  
 
-        # Pick a random candidate if any were found
         if valid_candidates:
             tile = random.choice(valid_candidates)
             tile.set_type(self.get_type())

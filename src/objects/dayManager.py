@@ -87,17 +87,22 @@ class Shop:
         self.screen = self.subscreen.screen
         self.seeds_rect = pygame.Rect(16, 16, 32, 16)
         self.hoe_rect = pygame.Rect(16, 38, 32, 16)
+        self.fertaliser_rect = pygame.Rect(64, 16, 32, 16)
         self.mouse_down = False
         self.cam: Vector2D = cam
 
-    def handle_seeds(self, player: Player):
+    def handle_shop(self, player: Player):
         if self.seeds_rect.collidepoint(self.subscreen.local_mouse_pos(self.cam).to_int()) and player.seeds < player.max_seeds:
             if player.take_plants(1): 
                 player.add_seeds(player.max_seeds)
-    def handle_hoe(self, player: Player):
+
         if self.hoe_rect.collidepoint(self.subscreen.local_mouse_pos(self.cam).to_int()) and player.hoe_durability < 100:
             if player.take_plants(1): 
                 player.add_hoe_durability(100)
+
+        if self.fertaliser_rect.collidepoint(self.subscreen.local_mouse_pos(self.cam).to_int()) and player.fertilizer < player.max_fertilizer:
+            if player.take_plants(1): 
+                player.add_fertilizer(player.max_fertilizer)
 
 
     def update(self, dt, events, player):
@@ -109,9 +114,7 @@ class Shop:
                 click = True
                 self.mouse_down = False
 
-        if click:
-            self.handle_seeds(player)
-            self.handle_hoe(player)
+        if click: self.handle_shop(player)
 
     def render(self, screen, cam: Vector2D):
         self.subscreen.clear()
