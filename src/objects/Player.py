@@ -35,7 +35,7 @@ class Player:
         self.inventory = PlayerInventory(self, screen)
 
     def rect(self):
-        return pygame.Rect(self.pos.to_int(), (16, 16))
+        return pygame.Rect((self.pos.x+4, self.pos.y+6), (8, 8))
 
     def input(self, events):
         self.vel = Vector2D(0.0, 0.0)
@@ -71,6 +71,8 @@ class Player:
         image = self.manager.get_image()
 
         screen.blit(image, (self.pos - cam).to_int())
+
+        pygame.draw.rect(screen, (255, 0, 0), self.rect(), 1) #debug
 
         self.inventory.render(screen, cam)
 

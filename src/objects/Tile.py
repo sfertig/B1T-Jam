@@ -24,7 +24,7 @@ class Tile:
         self.type = type
         self.image = None
         self.rect = pygame.Rect((x, y), (16, 16))
-        if self.type not in ["dead", "resting", "tilled", "growing", "grown"]:
+        if self.type not in ["dead", "resting", "tilled", "growing", "grown", "none"]:
             raise ValueError(f"Invalid tile type: {self.type}")
 
         self.set_image()
@@ -38,11 +38,15 @@ class Tile:
     def set_show_btn(self, player):
         if self.type in ["tilled", "resting", "grown", "dead"] and player.rect().colliderect(self.rect) and not self.cooldown:self.show_btn = True
         else: self.show_btn = False
+        #check if player has needed items to interact with tile
+        if self.show_btn:
+            if self.type == "tilled" and player.seeds <= 0: self.show_btn = False
+            elif self.type == "resting" and player.hoe_durability <= 0: self.show_btn = False
+            elif self.type == "dead" and player.fertilizer <= 0: self.show_btn = False
 
     def set_timer(self, min=MIN_GROW_TIME, max=MAX_GROW_TIME, cool=False):
         self.timer = Timer(random.randint(min, max))
         self.cooldown = cool
-        print(self.cooldown, cool)
 
     def update(self, dt, events, player):
 
@@ -88,4 +92,19 @@ class Tile:
             r.topleft = (self.pos - cam).to_int()
             pygame.draw.rect(screen, (255, 255, 255), r, 1)
             screen.blit(Assets.get_image("btn_e"), (self.pos - cam + Vector2D(0, -16)).to_int())
+
+class TileManager:
+    def __init__(self):
+        self.tiles: list[Tile] = []
+        for y in range(32, 320, 16):
+            for x in range(144, 576, 16):
+                self.tiles.append(Tile(x, y, "dead"))
+
+    def update(self, dt, events, player):
+        for tile in self.tiles:
+            tile.update(dt, events, player)
+
+    def render(self, screen, cam):
+        for tile in self.tiles:
+            tile.render(screen, cam)
 

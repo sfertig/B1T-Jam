@@ -5,7 +5,7 @@ from ..codes import *
 
 from ..utils import Keys, Vector2D, Assets
 
-from ..objects import Player, Tile
+from ..objects import Player, TileManager
 
 class Game_screen:
     def __init__(self, screen, clock):
@@ -20,7 +20,7 @@ class Game_screen:
 
         self.cam = Vector2D(0, 0)
 
-        self.test = Tile(192, 160, "dead")
+        self.tile_manager = TileManager()
 
     async def run(self):
         self.return_code = None
@@ -44,7 +44,7 @@ class Game_screen:
         if Keys.is_pressed(Keys.escape, events): self.return_code = SHUT_DOWN
 
         self.p.update(self.dt, events)
-        self.test.update(self.dt, events, self.p)
+        self.tile_manager.update(self.dt, events, self.p)
 
 
     def render(self):
@@ -52,7 +52,7 @@ class Game_screen:
         self.screen.fill(COLOR_1)
         self.screen.blit(Assets.get_image("game_bg"), (Vector2D(0, 0)-self.cam).to_int())
         #render
-        self.test.render(self.screen, self.cam)
+        self.tile_manager.render(self.screen, self.cam)
         self.p.render(self.screen, self.cam)
         #update
         pygame.display.flip()
