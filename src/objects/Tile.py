@@ -99,8 +99,8 @@ class Tile:
             screen.blit(Assets.get_image("btn_e"), (self.pos - cam + Vector2D(0, -16)).to_int())
 
 
-MIN_NEW_TIME = 40
-MAX_NEW_TIME = 80
+MIN_NEW_TIME = 5
+MAX_NEW_TIME = 5
 
 
 class TileManager:
@@ -116,13 +116,43 @@ class TileManager:
             
         tile.set_type("resting")
         self.none.remove(tile)
+        for i in range(4):
+            self.get_new_tile()
         self.timer = Timer(random.randint(MIN_NEW_TIME, MAX_NEW_TIME))
+
+    def get_type(self):
+        #return mainly resting, but sometimes dead
+        return random.choice(["resting", "dead", "resting", "resting", "resting", "resting", "resting"])
+
+    def get_new_tile(self):
+        # Filter 'none' tiles that have at least one adjacent non-none tile
+        valid_candidates = []
+
+        for tile in self.none:
+            px, py = tile.pos.x, tile.pos.y
+            
+            # Check 4-directional cardinal neighbors (16 pixels away)
+            for _t in self.tiles:
+                if _t.type != "none":
+                    # Check EXACT cardinal adjacencies (up, down, left, right)
+                    is_neighbor = (
+                        (abs(_t.pos.x - px) == 16 and _t.pos.y == py) or
+                        (abs(_t.pos.y - py) == 16 and _t.pos.x == px)
+                    )
+                    if is_neighbor:
+                        valid_candidates.append(tile)
+                        break  # Found an adjacent active tile, move to next 'none' tile
+
+        # Pick a random candidate if any were found
+        if valid_candidates:
+            tile = random.choice(valid_candidates)
+            tile.set_type(self.get_type())
+            self.none.remove(tile)
+        
 
     def update(self, dt, events, player):
         if self.timer.update(dt) and len(self.none) > 0:
-            tile = random.choice(self.none)
-            tile.set_type("resting")
-            self.none.remove(tile)
+            self.get_new_tile()
             self.timer = Timer(random.randint(MIN_NEW_TIME, MAX_NEW_TIME))
 
         for tile in self.tiles:
