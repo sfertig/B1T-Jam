@@ -109,9 +109,9 @@ class Shop:
             if player.take_plants(1): 
                 player.add_fertilizer(player.max_fertilizer)
 
-        if self.upgrade_hoe_rect.collidepoint(self.subscreen.local_mouse_pos(self.cam).to_int()) and player.hoe_durability == 100:
-            if player.take_plants(5): 
-                TILLING_COST -=1
+        if self.upgrade_hoe_rect.collidepoint(self.subscreen.local_mouse_pos(self.cam).to_int()):
+            if player.take_plants(1): 
+                TILLING_COST -=0.25
                 TILLING_COST = max(MIN_TILLING_COST, TILLING_COST)
 
 
