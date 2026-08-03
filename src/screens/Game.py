@@ -11,6 +11,8 @@ from ..objects import *
 
 NIGHT_TIME = 6
 
+DIFFICULTY = 100
+
 def gen_collisions():
     return [
     ]
@@ -55,9 +57,13 @@ class Game_screen:
                     await self.sleep_reset()
 
     async def sleep_reset(self):
+        global DIFFICULTY
+        DIFFICULTY-=10
+        DIFFICULTY = max(DIFFICULTY, 3)
         self.day_manager.sleep()
         #other night time things
         timer = Timer(NIGHT_TIME)
+        self.tile_manager.sleep(DIFFICULTY)
         while not timer.is_done():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -115,6 +121,7 @@ class Game_screen:
                 self.return_code = TITLE_SCREEN
 
         await self.detect_sleep(events)
+        print(self.p.money)
 
 
 

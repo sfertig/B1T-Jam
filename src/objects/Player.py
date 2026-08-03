@@ -31,6 +31,8 @@ class Player:
         self.max_fertilizer = 5
         self.plants = 5
         self.max_plants = 15
+        self.money = 0
+        self.plants_to_money = 2
 
         self.inventory = PlayerInventory(self, screen)
 
@@ -149,6 +151,15 @@ class Player:
         self.hoe_durability -= amount
         if self.hoe_durability < 0: 
             self.hoe_durability = 0
+            return False
+        return True
+
+    #money
+    def take_money(self, amount):
+        num = self.money
+        self.money -= amount
+        if self.money < 0: 
+            self.money = num
             return False
         return True
 

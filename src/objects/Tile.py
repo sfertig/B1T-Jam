@@ -126,13 +126,23 @@ class TileManager:
             
         tile.set_type("resting")
         self.none.remove(tile)
-        for i in range(4):
+        for i in range(3):
             self.get_new_tile()
         self.timer = Timer(random.randint(MIN_NEW_TIME, MAX_NEW_TIME))
 
     def get_type(self):
         #return mainly resting, but sometimes dead
         return random.choice(["resting", "dead", "resting", "resting", "resting", "resting", "resting"])
+
+    def sleep(self, dificulty: int):
+            for tile in self.tiles:
+                if tile.type == "none": continue
+                if tile.type != "grown":
+                    if random.randint(0, dificulty) == 0:
+                        tile.set_type("dead")
+                    else:
+                        if random.randint(0, dificulty*2) == 0:
+                            tile.set_type("dead")
 
     def get_new_tile(self):
         valid_candidates = []
