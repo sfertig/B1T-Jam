@@ -28,10 +28,10 @@ class Game_screen:
         self.return_code = None
 
         self.dt = 0.0
-
-        self.p = Player(48, 160, self.screen)
-
         self.cam = Vector2D(-50, 0)
+
+        self.p = Player(48, 160, self.screen, self.cam)
+        
         self.house = House(self.screen, self.cam)
 
         self.tile_manager = TileManager()
@@ -121,7 +121,6 @@ class Game_screen:
                 self.return_code = TITLE_SCREEN
 
         await self.detect_sleep(events)
-        print(self.p.money)
 
 
 

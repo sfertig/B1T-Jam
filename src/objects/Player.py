@@ -4,7 +4,7 @@ from ..utils import *
 
 
 class Player:
-    def __init__(self, x, y, screen):
+    def __init__(self, x, y, screen, cam):
         self.pos = Vector2D(x, y)
         self.vel = Vector2D(0, 0)
         self.speed = 50
@@ -34,7 +34,7 @@ class Player:
         self.money = 0
         self.plants_to_money = 2
 
-        self.inventory = PlayerInventory(self, screen)
+        self.inventory = PlayerInventory(self, screen, cam)
 
     def rect(self):
         return pygame.Rect((self.pos.x+4, self.pos.y+6), (8, 8))
@@ -165,8 +165,9 @@ class Player:
 
 
 class PlayerInventory:
-    def __init__(self, player: Player, screen: pygame.Surface):
+    def __init__(self, player: Player, screen: pygame.Surface, cam: Vector2D):
         self.player = player
+        self.cam: Vector2D = cam
         self.image = Assets.get_image("inventory_ui")
         self.subscreen = SubScreen(0, 0, self.image.get_width(), self.image.get_height(), "black", screen)
         #ui ellements
@@ -174,12 +175,33 @@ class PlayerInventory:
         self.fertilizer_bar = ProgressBar(80, 3, 9, 10, 0, self.player.max_fertilizer, self.player.fertilizer)
         self.plants_bar = ProgressBar(99, 3, 9, 10, 0, self.player.max_plants, self.player.plants)
         self.hoe_bar = ProgressBar(34, 10, 33, 1, 0, 100, self.player.hoe_durability)
+        self.hunger = ProgressBar(13, 24, 86, 1, 0, 100, 100)
+        self.hunger_timer = Timer(60)
+        self.hunger_show_btn = False
+        self.hunger_rect = pygame.Rect(16, 272, 32, 32)
+        self.hunger_full = 100
+
+    def handle_hunger(self, events):
+        if self.cam.to_int() == (0, 0):
+            if self.player.rect().colliderect(self.hunger_rect) and (self.hunger.value < self.hunger.max):
+                self.hunger_show_btn = True
+                if Keys.is_pressed(Keys.e, events) and self.player.take_plants(1): 
+                    self.hunger_timer.start()
+                    self.hunger.value = self.hunger.max*1.25
+                    self.hunger_full = self.hunger.value
+            else:
+                self.hunger_show_btn = False
+
 
     def update(self, dt, events):
         self.seed_bar.update(self.player.seeds)
         self.fertilizer_bar.update(self.player.fertilizer)
         self.plants_bar.update(self.player.plants)
         self.hoe_bar.update(self.player.hoe_durability)
+
+        self.handle_hunger(events)
+        self.hunger_timer.update(dt)
+        self.hunger.update(int(self.hunger_full - self.hunger_timer.get_time()))
 
     def render(self, screen, cam: Vector2D):
         self.subscreen.clear()
@@ -189,6 +211,9 @@ class PlayerInventory:
         self.fertilizer_bar.render(self.subscreen.screen, Vector2D(0, 0))
         self.plants_bar.render(self.subscreen.screen, Vector2D(0, 0))
         self.hoe_bar.render(self.subscreen.screen, Vector2D(0, 0))
+        self.hunger.render(self.subscreen.screen, Vector2D(0, 0))
+        if self.hunger_show_btn:
+            screen.blit(Assets.get_image("btn_e"), (24, 248))
         #update
         self.subscreen.render(cam)
 
@@ -203,6 +228,9 @@ class ProgressBar:
     def rect(self):
         #get reletive how value is compared to min and max and width
         rel_width = (self.value - self.min) / (self.max - self.min) * self.dim.x
+        rel_width = clamp(rel_width, 0, self.dim.x)
+        #if any value then rel_width is al least 1
+        if rel_width < 1 and self.value > self.min: rel_width = 1
         return pygame.Rect(self.pos.to_int(), (rel_width, self.dim.y))
 
     def update(self, value):
@@ -212,4 +240,5 @@ class ProgressBar:
         r = self.rect()
         r.topleft = (self.pos - cam).to_int()
         pygame.draw.rect(screen, (255, 255, 255), r)
+
 

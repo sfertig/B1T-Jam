@@ -73,6 +73,7 @@ async def main():
         elif state == SHUT_DOWN and not IS_WEB: break #web version should not fully shut down
         elif state == GAME_SCREEN: state = await Game_screen(screen, clock).run()
     pygame.quit()
+    if not IS_WEB: os.system('cls')
 
 if __name__ == "__main__":
     asyncio.run(main())
