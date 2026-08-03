@@ -31,7 +31,7 @@ class Player:
         self.max_fertilizer = 5
         self.plants = 5
         self.max_plants = 15
-        self.money = 100
+        self.money = 0
         self.plants_to_money = 2
 
         self.inventory = PlayerInventory(self, screen, cam)
