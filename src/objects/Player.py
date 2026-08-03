@@ -181,6 +181,11 @@ class PlayerInventory:
         self.hunger_rect = pygame.Rect(16, 272, 32, 32)
         self.hunger_full = 240
 
+        #set inital hunger wait
+        self.hunger.value = self.hunger.max*1.25
+        self.hunger_full = self.hunger.value
+        self.hunger_timer = Timer(self.hunger_full)
+
     def handle_hunger(self, events):
         if self.cam.to_int() == (0, 0):
             if self.player.rect().colliderect(self.hunger_rect) and (self.hunger.value < self.hunger.max):

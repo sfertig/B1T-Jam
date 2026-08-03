@@ -1,7 +1,7 @@
 import pygame
 import random
 
-from ..utils import Vector2D, Assets, Keys, Timer
+from ..utils import *
 from .Player import Player
 
 TILLING_COST = 10
@@ -21,7 +21,7 @@ MIN_DEATH_TIME = 20 #TODO: add return to death state in night time
 MAX_DEATH_TIME = 45
 
 class Tile:
-    def __init__(self, x, y, type):
+    def __init__(self, x, y, type, sound: SoundManager):
         self.pos = Vector2D(x, y)
         self.type = type
         self.image = None
@@ -31,6 +31,7 @@ class Tile:
 
         self.set_image()
         self.show_btn = False
+        self.sound: SoundManager = sound
 
         self.timer = Timer(random.randint(MIN_GROW_TIME, MAX_GROW_TIME))
         self.timer.elapsed = self.timer.duration #set inital hilight
@@ -79,6 +80,7 @@ class Tile:
                 self.set_timer()
 
         if self.show_btn and (Keys.is_pressed(Keys.e, events) or Keys.is_pressed(Keys.space, events)):
+            self.sound.play("tile")
             if self.type == "tilled" and player.take_seeds(1):
                 self.type = "growing"
                 self.set_image()
@@ -116,9 +118,10 @@ MAX_NEW_TIME = 60
 class TileManager:
     def __init__(self):
         self.tiles: list[Tile] = []
+        self.sound: SoundManager = SoundManager({"tile": Sound(Assets.get_sound("tile"), 5)})
         for y in range(32, 320, 16):
             for x in range(144, 576, 16):
-                self.tiles.append(Tile(x, y, "none"))
+                self.tiles.append(Tile(x, y, "none", self.sound))
         self.none = self.tiles.copy()
         while True:
             tile = random.choice(self.tiles)
@@ -126,9 +129,10 @@ class TileManager:
             
         tile.set_type("resting")
         self.none.remove(tile)
-        for i in range(3):
+        for i in range(50):
             self.get_new_tile()
         self.timer = Timer(random.randint(MIN_NEW_TIME, MAX_NEW_TIME))
+
 
     def get_type(self):
         #return mainly resting, but sometimes dead

@@ -7,7 +7,7 @@ class _assets:
         self.images: dict[str, pygame.Surface] = {}
         self.animations: dict[str, Animation] = {}
         self.fonts: dict[str, pygame.font.Font] = {}
-        self.sounds = dict[str, pygame.mixer.Sound] = {}
+        self.sounds: dict[str, pygame.mixer.Sound] = {}
 
     #clearing
     def _clear(self, _confirm=False):

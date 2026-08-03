@@ -9,6 +9,7 @@ from src.utils import Assets
 
 IM = "assets/images/"
 FT = "assets/fonts/"
+SD = "assets/sounds/"
 
 def load_assets():
     #player idle anims
@@ -42,6 +43,10 @@ def load_assets():
     Assets.new_image("sleep_ui", IM+"sleep_screen.png", colorKey=None)
     #font
     #Assets.new_font("font", FT+"pixelFont.ttf", 20)
+    #sounds
+    Assets.new_sound("tile", SD+"tile.wav")
+    Assets.new_sound("click", SD+"click.wav")
+    Assets.new_sound("bg_music", SD+"bg_music.mp3")
 
 
 pygame.init()

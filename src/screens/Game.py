@@ -4,7 +4,7 @@ import random
 
 from ..codes import *
 
-from ..utils import Keys, Vector2D, Assets, Timer
+from ..utils import Keys, Vector2D, Assets, Timer, Sound
 from ..objects.dayManager import SLEEP_WIDTH
 
 from ..objects import *
@@ -41,6 +41,9 @@ class Game_screen:
         self.speed = False
         self.pause_menu = PauseMenu(self.screen)
         self.death_menu = DeathMenu(self.screen)
+
+        self.sound = Sound(Assets.get_sound("bg_music"), 100, -1)
+        self.sound.play()
 
     def update_cam(self):
         if self.p.pos.x < 0:
