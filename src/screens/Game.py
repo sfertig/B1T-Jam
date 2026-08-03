@@ -56,6 +56,10 @@ class Game_screen:
                 if self.day_manager.bar.rect().width > SLEEP_WIDTH: 
                     await self.sleep_reset()
 
+    def handle_hunger(self):
+        if self.p.inventory.hunger.value < 0: self.death = True
+
+
     async def sleep_reset(self):
         global DIFFICULTY
         DIFFICULTY-=10
@@ -109,6 +113,7 @@ class Game_screen:
             self.p.update(self.dt, events, self.collisions)
             self.tile_manager.update(self.dt, events, self.p)
             self.house.update(self.dt, events, self.p)
+            self.handle_hunger()
         elif self.paused:
             num = self.pause_menu.update(self.dt, events)
             if num is not None:
