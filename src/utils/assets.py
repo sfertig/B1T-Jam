@@ -7,6 +7,7 @@ class _assets:
         self.images: dict[str, pygame.Surface] = {}
         self.animations: dict[str, Animation] = {}
         self.fonts: dict[str, pygame.font.Font] = {}
+        self.sounds = dict[str, pygame.mixer.Sound] = {}
 
     #clearing
     def _clear(self, _confirm=False):
@@ -14,6 +15,7 @@ class _assets:
             self.images = {}
             self.animations = {}
             self.fonts = {}
+            self.sounds = {}
 
     def clear_images(self, _confirm=False):
         if _confirm:
@@ -38,6 +40,14 @@ class _assets:
     def del_font(self, name):
         if name in self.fonts:
             del self.fonts[name]
+
+    def clear_sounds(self, _confirm=False):
+        if _confirm:
+            self.sounds = {}
+
+    def del_sound(self, name):
+        if name in self.sounds:
+            del self.sounds[name]
 
     #creation
     def new_image(self, name, path, rect=None, scale=1.0, colorKey=(0, 0, 0), sWidth=None, sHeight=None):
@@ -67,6 +77,9 @@ class _assets:
         #create animation
         self.new_animation(name, self.images[name], size, fps)
 
+    def new_sound(self, name, path):
+        self.sounds[name] = pygame.mixer.Sound(path)
+
     #getters
     def get_image(self, name):
         if name in self.images:
@@ -83,6 +96,12 @@ class _assets:
     def get_font(self, name):
         if name in self.fonts:
             return self.fonts[name]
+        else:
+            return None
+
+    def get_sound(self, name):
+        if name in self.sounds:
+            return self.sounds[name]
         else:
             return None
 

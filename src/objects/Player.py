@@ -26,7 +26,7 @@ class Player:
         #inventory / items
         self.seeds = 5
         self.max_seeds = 20
-        self.hoe_durability = 1
+        self.hoe_durability = 100
         self.fertilizer = 2
         self.max_fertilizer = 5
         self.plants = 5
