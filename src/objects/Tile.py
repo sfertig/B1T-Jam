@@ -129,7 +129,7 @@ class TileManager:
             
         tile.set_type("resting")
         self.none.remove(tile)
-        for i in range(50):
+        for i in range(5):
             self.get_new_tile()
         self.timer = Timer(random.randint(MIN_NEW_TIME, MAX_NEW_TIME))
 

@@ -11,7 +11,7 @@ IM = "assets/images/"
 FT = "assets/fonts/"
 SD = "assets/sounds/"
 
-def load_assets():
+def load_assets(is_web=False):
     #player idle anims
     Assets.new_anim_nIMG("player_idle_right", size=16, fps=3, path=IM+"player.png", rect=(0, 0, 32, 16))
     Assets.animations["player_idle_left"] = Assets.get_animation("player_idle_right").copy()
@@ -44,9 +44,11 @@ def load_assets():
     #font
     #Assets.new_font("font", FT+"pixelFont.ttf", 20)
     #sounds
-    Assets.new_sound("tile", SD+"tile.wav")
-    Assets.new_sound("click", SD+"click.wav")
-    Assets.new_sound("bg_music", SD+"bg_music.mp3")
+    ext = ".wav"
+    if is_web: ext = ".ogg"
+    Assets.new_sound("tile", SD+"tile"+ext)
+    Assets.new_sound("click", SD+"click"+ext)
+    Assets.new_sound("bg_music", SD+"bg_music"+ext)
 
 
 pygame.init()
@@ -67,7 +69,7 @@ async def main():
         )
     pygame.display.set_caption("test title")
 
-    load_assets()
+    load_assets(IS_WEB)
 
     clock = pygame.time.Clock()
     

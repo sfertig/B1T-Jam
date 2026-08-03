@@ -91,6 +91,7 @@ class Game_screen:
         self.return_code = None
         while True:
             if self.return_code is not None:
+                self.sound.stop()
                 return self.return_code
             
             await self.update()
