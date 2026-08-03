@@ -19,7 +19,7 @@ class PauseMenu:
             if self.resume.collidepoint(mouse_pos):
                 self.active = False
             elif self.quit.collidepoint(mouse_pos):
-                return TITLE_SCREEN
+                return SHUT_DOWN
         return None
 
     def render(self):

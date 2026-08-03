@@ -117,13 +117,12 @@ class Shop:
 
         if self.upgrade_hoe_rect.collidepoint(self.subscreen.local_mouse_pos(self.cam).to_int()):
             if player.take_money(5): 
-                TILLING_COST -=0.25
+                TILLING_COST -=1
                 TILLING_COST = max(MIN_TILLING_COST, TILLING_COST)
 
         if self.sell_rect.collidepoint(self.subscreen.local_mouse_pos(self.cam).to_int()):
             if player.take_plants(1): 
                 player.money += player.plants_to_money
-                self.money_bar.update(player.money)
 
 
     def update(self, dt, events, player):
@@ -136,6 +135,7 @@ class Shop:
                 self.mouse_down = False
 
         if click: self.handle_shop(player)
+        self.money_bar.update(player.money)
 
 
     def render(self, screen, cam: Vector2D):

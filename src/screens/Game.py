@@ -4,7 +4,7 @@ import random
 
 from ..codes import *
 
-from ..utils import Keys, Vector2D, Assets, Timer, Sound
+from ..utils import *
 from ..objects.dayManager import SLEEP_WIDTH
 
 from ..objects import *
@@ -35,6 +35,7 @@ class Game_screen:
         self.house = House(self.screen, self.cam)
 
         self.tile_manager = TileManager()
+        self.crows = ScareCrow_Manager(self.cam, self.screen)
 
         self.paused = False
         self.death = False
@@ -117,6 +118,7 @@ class Game_screen:
             self.p.update(self.dt, events, self.collisions)
             self.tile_manager.update(self.dt, events, self.p)
             self.house.update(self.dt, events, self.p)
+            self.crows.update(self.dt, events, self.p)
             self.handle_hunger()
         elif self.paused:
             num = self.pause_menu.update(self.dt, events)
@@ -142,6 +144,7 @@ class Game_screen:
         self.house.render(self.screen, self.cam)
         self.tile_manager.render(self.screen, self.cam)
         self.day_manager.render(self.screen, self.cam)
+        self.crows.render(self.screen, self.cam)
         self.p.render(self.screen, self.cam)
 
         if self.paused:
