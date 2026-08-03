@@ -30,7 +30,7 @@ class Game_screen:
         self.dt = 0.0
         self.cam = Vector2D(-50, 0)
 
-        self.p = Player(48, 160, self.screen, self.cam)
+        self.p: Player = Player(48, 160, self.screen, self.cam)
         
         self.house = House(self.screen, self.cam)
 
@@ -57,7 +57,7 @@ class Game_screen:
                     await self.sleep_reset()
 
     def handle_hunger(self):
-        if self.p.inventory.hunger.value < 0: self.death = True
+        if self.p.inventory.hunger_timer.is_done(): self.death = True
 
 
     async def sleep_reset(self):

@@ -26,7 +26,7 @@ class Player:
         #inventory / items
         self.seeds = 5
         self.max_seeds = 20
-        self.hoe_durability = 100
+        self.hoe_durability = 1
         self.fertilizer = 2
         self.max_fertilizer = 5
         self.plants = 5
@@ -175,20 +175,20 @@ class PlayerInventory:
         self.fertilizer_bar = ProgressBar(80, 3, 9, 10, 0, self.player.max_fertilizer, self.player.fertilizer)
         self.plants_bar = ProgressBar(99, 3, 9, 10, 0, self.player.max_plants, self.player.plants)
         self.hoe_bar = ProgressBar(34, 10, 33, 1, 0, 100, self.player.hoe_durability)
-        self.hunger = ProgressBar(13, 24, 86, 1, 0, 100, 100)
+        self.hunger = ProgressBar(13, 24, 86, 1, 0, 60, 100)
         self.hunger_timer = Timer(60)
         self.hunger_show_btn = False
         self.hunger_rect = pygame.Rect(16, 272, 32, 32)
-        self.hunger_full = 100
+        self.hunger_full = 60
 
     def handle_hunger(self, events):
         if self.cam.to_int() == (0, 0):
             if self.player.rect().colliderect(self.hunger_rect) and (self.hunger.value < self.hunger.max):
                 self.hunger_show_btn = True
                 if Keys.is_pressed(Keys.e, events) and self.player.take_plants(1): 
-                    self.hunger_timer.start()
                     self.hunger.value = self.hunger.max*1.25
                     self.hunger_full = self.hunger.value
+                    self.hunger_timer = Timer(self.hunger_full)
             else:
                 self.hunger_show_btn = False
 
@@ -229,8 +229,7 @@ class ProgressBar:
         #get reletive how value is compared to min and max and width
         rel_width = (self.value - self.min) / (self.max - self.min) * self.dim.x
         rel_width = clamp(rel_width, 0, self.dim.x)
-        #if any value then rel_width is al least 1
-        if rel_width < 1 and self.value > self.min: rel_width = 1
+        if rel_width <= 1.0 and self.value > self.min: rel_width = 1
         return pygame.Rect(self.pos.to_int(), (rel_width, self.dim.y))
 
     def update(self, value):
