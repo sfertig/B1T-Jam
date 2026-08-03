@@ -175,11 +175,11 @@ class PlayerInventory:
         self.fertilizer_bar = ProgressBar(80, 3, 9, 10, 0, self.player.max_fertilizer, self.player.fertilizer)
         self.plants_bar = ProgressBar(99, 3, 9, 10, 0, self.player.max_plants, self.player.plants)
         self.hoe_bar = ProgressBar(34, 10, 33, 1, 0, 100, self.player.hoe_durability)
-        self.hunger = ProgressBar(13, 24, 86, 1, 0, 60, 100)
-        self.hunger_timer = Timer(60)
+        self.hunger = ProgressBar(13, 24, 86, 1, 0, 240, 240)
+        self.hunger_timer = Timer(240)
         self.hunger_show_btn = False
         self.hunger_rect = pygame.Rect(16, 272, 32, 32)
-        self.hunger_full = 60
+        self.hunger_full = 240
 
     def handle_hunger(self, events):
         if self.cam.to_int() == (0, 0):

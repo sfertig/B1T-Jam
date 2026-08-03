@@ -23,6 +23,7 @@ class DayManager:
         self.bar.update(int(self.timer.get_time()))
 
     def sleep(self):
+        global DAY_LENGTH
         self.day += 1
         self.bar.value = 0
         DAY_LENGTH -= 5
