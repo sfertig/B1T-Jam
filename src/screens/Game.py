@@ -67,11 +67,12 @@ class Game_screen:
     async def sleep_reset(self):
         global DIFFICULTY
         DIFFICULTY-=10
-        DIFFICULTY = max(DIFFICULTY, 3)
+        dif = DIFFICULTY-self.crows.get_built()
+        DIFFICULTY = max(dif, 3)
         self.day_manager.sleep()
         #other night time things
         timer = Timer(NIGHT_TIME)
-        self.tile_manager.sleep(DIFFICULTY)
+        self.tile_manager.sleep(dif)
         while not timer.is_done():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

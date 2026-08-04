@@ -52,6 +52,13 @@ class ScareCrow_Manager:
         for crow in self.crows:
             crow.update(dt, events, player)
 
+    def get_built(self):
+        num = 0
+        for crow in self.crows:
+            if crow.built:
+                num += 1
+        return num*10
+
     def render(self, screen, cam: Vector2D):
         for crow in self.crows:
             crow.render(screen, cam)
