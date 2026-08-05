@@ -21,7 +21,9 @@ class Game_screen:
     def __init__(self, screen, clock):
         self.screen: pygame.Surface = screen
         self.clock: pygame.time.Clock = clock
-        self.collisions = gen_collisions()
+
+        self.collisions = Collisions(build=False)
+        self.collisions.load("data/collisions.json")
 
         self.day_manager = DayManager(self.screen)
 
@@ -94,6 +96,7 @@ class Game_screen:
         while True:
             if self.return_code is not None:
                 self.sound.stop()
+                self.collisions.save("data/collisions.json")
                 return self.return_code
             
             await self.update()
@@ -116,11 +119,12 @@ class Game_screen:
         if not self.paused:
             self.day_manager.update(self.dt, events, self.p)
             self.detect_death()
-            self.p.update(self.dt, events, self.collisions)
+            self.p.update(self.dt, events, self.collisions.get_tiles())
             self.tile_manager.update(self.dt, events, self.p)
             self.house.update(self.dt, events, self.p)
             self.crows.update(self.dt, events, self.p)
             self.handle_hunger()
+            self.collisions.update(events, self.cam)
         elif self.paused:
             num = self.pause_menu.update(self.dt, events)
             if num is not None:
@@ -147,6 +151,7 @@ class Game_screen:
         self.day_manager.render(self.screen, self.cam)
         self.crows.render(self.screen, self.cam)
         self.p.render(self.screen, self.cam)
+        self.collisions.render(self.screen, self.cam)
 
         if self.paused:
             self.pause_menu.render()
