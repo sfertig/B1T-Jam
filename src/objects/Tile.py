@@ -17,7 +17,7 @@ MAX_REST_TIME = 45
 MIN_TILLED_TIME = 20
 MAX_TILLED_TIME = 45
 
-MIN_DEATH_TIME = 20 #TODO: add return to death state in night time
+MIN_DEATH_TIME = 20 
 MAX_DEATH_TIME = 45
 
 class Tile:

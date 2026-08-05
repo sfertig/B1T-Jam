@@ -2,6 +2,8 @@ import pygame
 
 from ..utils import *
 
+SCARE = 5
+
 class ScareCrow:
     def __init__(self, x, y, tx, ty, cam: Vector2D, screen):
         self.pos = Vector2D(x, y)
@@ -57,7 +59,7 @@ class ScareCrow_Manager:
         for crow in self.crows:
             if crow.built:
                 num += 1
-        return num*10
+        return num*SCARE
 
     def render(self, screen, cam: Vector2D):
         for crow in self.crows:

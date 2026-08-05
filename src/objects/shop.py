@@ -2,7 +2,9 @@ import pygame
 
 from ..utils import *
 from .Player import ProgressBar, Player
-from .Tile import TILLING_COST, MIN_TILLING_COST
+from .ScareCrow import SCARE
+from .Tile import TILLING_COST, MIN_TILLING_COST, DEAD_COST, MIN_GROW_TIME, MAX_GROW_TIME
+from .Tile import MIN_REST_TIME, MAX_REST_TIME, MIN_TILLED_TIME, MAX_TILLED_TIME, MIN_DEATH_TIME, MAX_DEATH_TIME
 
 
 class Shop:
@@ -20,9 +22,13 @@ class Shop:
 
         self.money_bar = ProgressBar(71, 305, 176, 3, 0, 500, 0)
 
+        self.crow_rect = pygame.Rect(64, 48, 32, 16)
+        self.hunger_rect = pygame.Rect(112, 48, 32, 16)
+
     def handle_shop(self, player: Player):
         global TILLING_COST
         global MIN_TILLING_COST
+        global SCARE
 
         if self.seeds_rect.collidepoint(self.subscreen.local_mouse_pos(self.cam).to_int()) and player.seeds < player.max_seeds:
             if player.take_money(2): 
@@ -44,6 +50,15 @@ class Shop:
         if self.sell_rect.collidepoint(self.subscreen.local_mouse_pos(self.cam).to_int()):
             if player.take_plants(1): 
                 player.money += player.plants_to_money
+
+        if self.crow_rect.collidepoint(self.subscreen.local_mouse_pos(self.cam).to_int()):
+            if player.take_money(5): 
+                inventory = player.inventory
+                inventory.hunger.max = inventory.hunger.max*1.25
+                inventory.hunger.value = inventory.hunger.max*1.25
+                inventory.hunger_full = inventory.hunger.value
+                inventory.hunger_timer = Timer(inventory.hunger_full)
+
 
 
     def update(self, dt, events, player):
@@ -67,4 +82,5 @@ class Shop:
 
         #update
         self.subscreen.render(cam)
+
 
