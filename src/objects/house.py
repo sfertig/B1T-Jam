@@ -4,9 +4,10 @@ from ..utils import *
 from .Player import ProgressBar, Player
 from .Tile import TILLING_COST, MIN_TILLING_COST
 from .shop import Shop
+from .dayManager import DayManager, SLEEP_WIDTH
 
 class House:
-    def __init__(self, screen, cam):
+    def __init__(self, screen, cam, manager: DayManager):
         self.image = Assets.get_image("house")
         self.subscreen = SubScreen(-80, 0, 80, 352, "black", screen)
         self.screen = self.subscreen.screen
@@ -17,12 +18,13 @@ class House:
 
         self.bed_rect = pygame.Rect(16, 176, 48, 16)
         self.bed_show_e = False
+        self.day: DayManager = manager
 
     def update(self, dt, events, player):
+        global SLEEP_WIDTH
         r = self.subscreen.get_global_rect(self.workbench_rect.copy())
         if r.colliderect(player.rect()):
             self.show_workbench_btn = True
-            #self.cam.y = -110
         else:
             self.show_workbench_btn = False
             self.cam.y = 0
@@ -32,7 +34,7 @@ class House:
 
         #bed
         r = self.subscreen.get_global_rect(self.bed_rect.copy())
-        if r.colliderect(player.rect()):
+        if r.colliderect(player.rect()) and self.day.bar.rect().width > SLEEP_WIDTH:
             self.bed_show_e = True
         else:
             self.bed_show_e = False

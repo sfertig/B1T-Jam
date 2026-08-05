@@ -34,7 +34,7 @@ class Game_screen:
 
         self.p: Player = Player(48, 160, self.screen, self.cam)
         
-        self.house = House(self.screen, self.cam)
+        self.house = House(self.screen, self.cam, self.day_manager)
 
         self.tile_manager = TileManager()
         self.crows = ScareCrow_Manager(self.cam, self.screen)
