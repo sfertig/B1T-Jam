@@ -38,6 +38,8 @@ def load_assets(is_web=False):
     Assets.new_image("scarecrow_ui", IM+"assets.png", rect = (32, 0, 64, 32))
     #images - buttons
     Assets.new_image("btn_e", IM+"buttons.png", rect=(0, 0, 16, 16), colorKey=None)
+    Assets.new_image("right_arrow", IM+"buttons.png", rect=(16, 0, 16, 16), colorKey=None)
+    Assets.new_image("left_arrow", IM+"buttons.png", rect=(32, 0, 16, 16), colorKey=None)
     Assets.new_image("inventory_ui", IM+"inventory_ui.png", colorKey=None)
     Assets.new_image("day_ui", IM+"day_ui.png", colorKey=None)
     Assets.new_image("pause_ui", IM+"pause_menu.png", colorKey=None)

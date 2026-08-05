@@ -158,5 +158,9 @@ class Game_screen:
         elif self.death:
             self.death_menu.render()
 
+        #temp
+        self.screen.blit(Assets.get_image("left_arrow"), (100, 300))
+        self.screen.blit(Assets.get_image("right_arrow"), (300, 300))
+
         #update
         pygame.display.flip()
