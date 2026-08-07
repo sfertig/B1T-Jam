@@ -1,47 +1,41 @@
-import asyncio
 import pygame
+import sys
+from ..Net import Net
 
-from ..codes import *
+from ..utils import Assets, Keys
 
-from ..utils import Keys, Vector2D, Assets
+FPS = 60
 
 class Title_screen:
-    def __init__(self, screen, clock):
-        self.screen: pygame.Surface = screen
-        self.clock: pygame.time.Clock = clock
+    def __init__(self):
+        self.bg = "black"
 
-        self.return_code = None
-
-        self.dt = 0.0
-
-
-    async def run(self):
-        self.return_code = None
+    def run(self):
         while True:
-            if self.return_code is not None:
-                return self.return_code
-            
             self.update()
             self.render()
-            await asyncio.sleep(0)
 
     def update(self):
-        self.dt = self.clock.tick(FPS)/1000.0
+        Net.dt = Net.clock.tick(FPS)/1000.0
 
-        events = pygame.event.get().copy()
+        Net.events = pygame.event.get().copy()
 
-        for event in events:
+        for event in Net.events:
             if event.type == pygame.QUIT:
-                self.return_code =  SHUT_DOWN
+                self.shut_down()
 
-        if Keys.is_pressed(Keys.escape, events): self.return_code = SHUT_DOWN
-        elif Keys.is_pressed(Keys.enter, events): self.return_code = TUTORIAL
+        if Keys.is_pressed(Keys.escape): self.shut_down()
 
 
     def render(self):
         #clear
-        self.screen.blit(Assets.get_image("title_screen"), (0, 0))
-
+        Net.screen.fill(self.bg)
         #render
+
         #update
         pygame.display.flip()
+
+    def shut_down(self):
+        pygame.quit()
+        sys.exit()
+

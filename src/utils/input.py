@@ -1,4 +1,5 @@
 import pygame
+from ..Net import Net
 
 class _keys:
     def __init__(self):
@@ -61,16 +62,17 @@ class _keys:
         #mouse
         self.mouse_x, self.mouse_y = 0, 0
 
-    def is_pressed(self, key, events):
+    def is_pressed(self, key):
+        events = Net.events
         if events is None: return False
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == key: return True
         return False
 
-    def is_pressed_list(self, keys, events):
+    def is_pressed_list(self, keys):
         for key in keys:
-            if self.is_pressed(key, events): return True
+            if self.is_pressed(key): return True
         return False
 
     def is_held(self, key):
