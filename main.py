@@ -7,56 +7,6 @@ from src.codes import *
 from src.screens import *
 from src.utils import Assets
 
-IM = "assets/images/"
-FT = "assets/fonts/"
-SD = "assets/sounds/"
-
-def load_assets(is_web=False):
-    #player idle anims
-    Assets.new_anim_nIMG("player_idle_right", size=16, fps=3, path=IM+"player.png", rect=(0, 0, 32, 16))
-    Assets.animations["player_idle_left"] = Assets.get_animation("player_idle_right").copy()
-    Assets.animations["player_idle_left"].flip_h()
-    Assets.new_anim_nIMG("player_idle_front", size=16, fps=3, path=IM+"player.png", rect=(0, 16, 32, 16))
-    Assets.new_anim_nIMG("player_idle_back", size=16, fps=3, path=IM+"player.png", rect=(0, 32, 32, 16))
-    #player walk anims
-    Assets.new_anim_nIMG("player_walk_right", size=16, fps=3, path=IM+"player.png", rect=(32, 0, 32, 16))
-    Assets.animations["player_walk_left"] = Assets.get_animation("player_walk_right").copy()
-    Assets.animations["player_walk_left"].flip_h()
-    Assets.new_anim_nIMG("player_walk_front", size=16, fps=3, path=IM+"player.png", rect=(32, 16, 32, 16))
-    Assets.new_anim_nIMG("player_walk_back", size=16, fps=3, path=IM+"player.png", rect=(32, 32, 32, 16))
-    #images
-    Assets.new_image("game_bg", IM+"bg_image.png")
-    Assets.new_image("title_screen", IM+"title.png", colorKey=None)
-    Assets.new_image("tile_dead", IM+"tiles.png", rect=(32, 0, 16, 16))
-    Assets.new_image("tile_resting", IM+"tiles.png", rect=(16, 0, 16, 16))
-    Assets.new_image("tile_tilled", IM+"tiles.png", rect=(0, 0, 16, 16))
-    Assets.new_image("tile_growing", IM+"tiles.png", rect=(48, 0, 16, 16))
-    Assets.new_image("tile_grown", IM+"tiles.png", rect=(0, 16, 16, 16))
-    Assets.new_image("tile_none", IM+"tiles.png", rect=(16, 16, 16, 16))
-    #asset images
-    Assets.new_image("hilight", IM+"assets.png", rect=(0, 0, 16, 16))
-    Assets.new_image("scarecrow", IM+"assets.png", rect=(16, 0, 16, 16))
-    Assets.new_image("scarecrow_ui", IM+"assets.png", rect = (32, 0, 64, 32))
-    #images - buttons
-    Assets.new_image("btn_e", IM+"buttons.png", rect=(0, 0, 16, 16), colorKey=None)
-    Assets.new_image("right_arrow", IM+"buttons.png", rect=(16, 0, 16, 16), colorKey=None)
-    Assets.new_image("left_arrow", IM+"buttons.png", rect=(32, 0, 16, 16), colorKey=None)
-    Assets.new_image("inventory_ui", IM+"inventory_ui.png", colorKey=None)
-    Assets.new_image("day_ui", IM+"day_ui.png", colorKey=None)
-    Assets.new_image("pause_ui", IM+"pause_menu.png", colorKey=None)
-    Assets.new_image("house", IM+"house.png", colorKey=None)
-    Assets.new_image("shop", IM+"shop.png", colorKey=None)
-    Assets.new_image("death_ui", IM+"death_screen.png", colorKey=None)
-    Assets.new_image("sleep_ui", IM+"sleep_screen.png", colorKey=None)
-    Assets.new_image("tutorial", "assets/tutorial_slides/slide_1.png", colorKey=None)
-    #font
-    #Assets.new_font("font", FT+"pixelFont.ttf", 20)
-    #sounds
-    ext = ".wav"
-    if is_web: ext = ".ogg"
-    Assets.new_sound("tile", SD+"tile"+ext)
-    Assets.new_sound("click", SD+"click"+ext)
-    Assets.new_sound("bg_music", SD+"bg_music"+ext)
 
 
 pygame.init()
@@ -77,7 +27,7 @@ async def main():
         )
     pygame.display.set_caption("test title")
 
-    load_assets(IS_WEB)
+    #load_assets(IS_WEB)
 
     clock = pygame.time.Clock()
     
