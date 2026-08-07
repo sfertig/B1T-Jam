@@ -22,8 +22,7 @@ class Game_screen:
         self.screen: pygame.Surface = screen
         self.clock: pygame.time.Clock = clock
 
-        self.collisions = Collisions(build=False)
-        self.collisions.load("data/collisions.json")
+        self.collisions = Collisions(COLLISIONS, build=True)
 
         self.day_manager = DayManager(self.screen)
 
@@ -96,7 +95,6 @@ class Game_screen:
         while True:
             if self.return_code is not None:
                 self.sound.stop()
-                self.collisions.save("data/collisions.json")
                 return self.return_code
             
             await self.update()
