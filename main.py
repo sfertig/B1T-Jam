@@ -5,6 +5,9 @@ import os
 
 from src.Net import Net
 from src.screens import Title_screen
+from src.utils import init_save_dir
+
+init_save_dir()
 
 pygame.init()
 

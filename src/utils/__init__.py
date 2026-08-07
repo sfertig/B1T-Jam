@@ -6,5 +6,7 @@ from .subscreen import SubScreen
 from .timer import Timer
 from .sound import SoundManager, Sound
 from .collisions import Collisions
+from .versions import *
 
-__all__ = ["Animation", "Timer", "AnimationManager", "Assets", "Vector2D", "Keys", "SubScreen", "on_cam", "Text", "clamp", "SoundManager", "Sound", "Collisions"]
+__all__ = ["Animation", "Timer", "AnimationManager", "Assets", "Vector2D", "Keys", "SubScreen", "on_cam", "Text", "clamp", "SoundManager", "Sound", "Collisions"
+           "get_save_dir_path", "init_save_dir"]
