@@ -26,6 +26,7 @@ def load_assets(is_web=False):
     Assets.new_anim_nIMG("player_walk_back", size=16, fps=3, path=IM+"player.png", rect=(32, 32, 32, 16))
     #images
     Assets.new_image("game_bg", IM+"bg_image.png")
+    Assets.new_image("title_screen", IM+"title.png", colorKey=None)
     Assets.new_image("tile_dead", IM+"tiles.png", rect=(32, 0, 16, 16))
     Assets.new_image("tile_resting", IM+"tiles.png", rect=(16, 0, 16, 16))
     Assets.new_image("tile_tilled", IM+"tiles.png", rect=(0, 0, 16, 16))
@@ -79,7 +80,7 @@ async def main():
 
     clock = pygame.time.Clock()
     
-    state = GAME_SCREEN #TITLE_SCREEN
+    state = TITLE_SCREEN
 
     while True:
         if state == TITLE_SCREEN: state = await Title_screen(screen, clock).run()

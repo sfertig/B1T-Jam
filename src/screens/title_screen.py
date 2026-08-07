@@ -3,7 +3,7 @@ import pygame
 
 from ..codes import *
 
-from ..utils import Keys, Vector2D
+from ..utils import Keys, Vector2D, Assets
 
 class Title_screen:
     def __init__(self, screen, clock):
@@ -40,7 +40,7 @@ class Title_screen:
 
     def render(self):
         #clear
-        self.screen.fill(COLOR_1)
+        self.screen.blit(Assets.get_image("title_screen"), (0, 0))
 
         #render
         #update
