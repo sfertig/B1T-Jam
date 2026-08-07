@@ -48,6 +48,7 @@ def load_assets(is_web=False):
     Assets.new_image("shop", IM+"shop.png", colorKey=None)
     Assets.new_image("death_ui", IM+"death_screen.png", colorKey=None)
     Assets.new_image("sleep_ui", IM+"sleep_screen.png", colorKey=None)
+    Assets.new_image("tutorial", "assets/tutorial_slides/slide_1.png", colorKey=None)
     #font
     #Assets.new_font("font", FT+"pixelFont.ttf", 20)
     #sounds
@@ -86,6 +87,7 @@ async def main():
         if state == TITLE_SCREEN: state = await Title_screen(screen, clock).run()
         elif state == SHUT_DOWN and not IS_WEB: break #web version should not fully shut down
         elif state == GAME_SCREEN: state = await Game_screen(screen, clock).run()
+        elif state == TUTORIAL: state = await Tutorial(screen, clock).run()
     pygame.quit()
     if not IS_WEB: os.system('cls')
 

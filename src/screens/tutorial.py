@@ -5,7 +5,7 @@ from ..codes import *
 
 from ..utils import Keys, Vector2D, Assets
 
-class Title_screen:
+class Tutorial:
     def __init__(self, screen, clock):
         self.screen: pygame.Surface = screen
         self.clock: pygame.time.Clock = clock
@@ -34,13 +34,13 @@ class Title_screen:
             if event.type == pygame.QUIT:
                 self.return_code =  SHUT_DOWN
 
-        if Keys.is_pressed(Keys.escape, events): self.return_code = SHUT_DOWN
-        elif Keys.is_pressed(Keys.enter, events): self.return_code = TUTORIAL
+        if Keys.is_pressed(Keys.escape, events): self.return_code = TITLE_SCREEN
+        elif Keys.is_pressed(Keys.enter, events): self.return_code = GAME_SCREEN
 
 
     def render(self):
         #clear
-        self.screen.blit(Assets.get_image("title_screen"), (0, 0))
+        self.screen.blit(Assets.get_image("tutorial"), (0, 0))
 
         #render
         #update
