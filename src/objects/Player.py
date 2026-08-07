@@ -142,7 +142,6 @@ class Player:
     #-hoe
     def add_hoe_durability(self, amount):
         self.hoe_durability += amount
-        print(self.hoe_durability)
         if self.hoe_durability > 100: 
             self.hoe_durability = 100
             return False

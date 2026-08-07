@@ -41,7 +41,6 @@ class DeathMenu:
     def update(self, dt, events):
         if pygame.mouse.get_pressed()[0]:
             mouse_pos = self.subscreen.local_mouse_pos().to_int()
-            print(self.quit.topleft, mouse_pos)
             if self.quit.collidepoint(mouse_pos):
                 self.active = False
                 return TITLE_SCREEN

@@ -38,7 +38,6 @@ class AnimationManager:
     def __init__(self, animations: dict[str, Animation], current_anim=None):
         self.animations = animations
         self.current_anim = current_anim
-        print(self.animations)
 
     def new_anim(self, name, anim):
         self.animations[name] = anim
