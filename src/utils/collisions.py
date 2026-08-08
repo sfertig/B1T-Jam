@@ -26,13 +26,14 @@ def load_json(path):
 
 
 class Collisions:
-    def __init__(self, data: dict = {}, build=True):
+    def __init__(self, net, data: dict = {}):
         self.tiles = {}
         for k,v in data.items():
             k = k.split(";")
             self.tiles[(int(k[0]), int(k[1]))] = v
         self.active = False
-        self.build = build
+        self.build = net.build
+        self.net = net
 
     def load(self, path):
         self.tiles = load_json(path)

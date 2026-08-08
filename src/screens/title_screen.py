@@ -2,7 +2,7 @@ import pygame
 import sys
 from ..Net import Net
 
-from ..utils import Assets, Keys
+from ..utils import Assets, Keys, save_settings
 
 FPS = 60
 
@@ -36,6 +36,9 @@ class Title_screen:
         pygame.display.flip()
 
     def shut_down(self):
+        #save
+        save_settings(Net.settings)
+        #exit
         pygame.quit()
         sys.exit()
 

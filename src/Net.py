@@ -6,6 +6,7 @@ def INITSETTINGS(net):
     data = load_settings()
     net.FPS = data["fps"]
     pygame.display.set_caption(data["title"])
+    net.settings = data
 
 
 class _net:
@@ -17,6 +18,10 @@ class _net:
         self.dt: float = 0.0
 
         self.events = None
+        self.build = False
+
+        #save data
+        self.settings = {}
 
     def init(self):
         INITSETTINGS(self)

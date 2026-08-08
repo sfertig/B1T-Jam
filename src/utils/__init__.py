@@ -9,4 +9,4 @@ from .collisions import Collisions
 from .versions import *
 
 __all__ = ["Animation", "Timer", "AnimationManager", "Assets", "Vector2D", "Keys", "SubScreen", "on_cam", "Text", "clamp", "SoundManager", "Sound", "Collisions"
-           "get_save_dir_path", "init_save_dir"]
+           "get_save_dir_path", "init_save_dir", "save_settings", "save_save_file"]
