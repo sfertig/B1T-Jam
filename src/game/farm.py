@@ -2,7 +2,7 @@ import pygame
 
 from ..Net import Net
 from ..utils import *
-from ..objects import Player
+from ..objects import Player, PlantManager
 from .menues import PauseMenu
 from .init import INITSAVEDATA, SAVEDATA
 
@@ -10,6 +10,7 @@ class Farm:
     def __init__(self):
         
         self.player = Player(0, 0)
+        self.plants = PlantManager()
         self.pause_menue = PauseMenu()
         self.pause_menue_active = False
 
@@ -17,14 +18,14 @@ class Farm:
         self.mouse_down = False
         self.data = getattr(Net, f"slot_{Net.selected_slot}")
         
-        INITSAVEDATA(self.data, self.player)
+        INITSAVEDATA(self.data, self.player, self.plants)
 
     def run(self):
         while self.running:
             self.update()
             self.render()
         Net.selected_slot = None
-        SAVEDATA(self.data, self.player)
+        SAVEDATA(self.data, self.player, self.plants)
 
     def update(self):
         Net.click = False
@@ -40,6 +41,7 @@ class Farm:
                 Net.click = True
 
         if not self.pause_menue_active:
+            self.plants.update()
             self.player.update([])
 
         if self.pause_menue_active:
@@ -53,6 +55,7 @@ class Farm:
     def render(self):
         Net.screen.fill((0, 0, 0))
         #render
+        self.plants.render()
         self.player.render()
 
         if self.pause_menue_active: self.pause_menue.render()

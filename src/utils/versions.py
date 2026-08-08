@@ -23,7 +23,8 @@ SAVE_DATA = {
     "play_time": 0.0,
     "player_pos": [0, 0],
     "player_inventory": {},
-    "player_coins": 0
+    "player_coins": 0,
+    "plant_data": {},
 }
 
 
