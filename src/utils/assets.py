@@ -50,7 +50,7 @@ class _assets:
             del self.sounds[name]
 
     #creation
-    def new_image(self, name, path, rect=None, scale=1.0, colorKey=(0, 0, 0), sWidth=None, sHeight=None):
+    def new_image(self, name, path, rect=None, scale=1.0, colorKey=None, sWidth=None, sHeight=None):
         image = pygame.image.load(path)
         #rect
         if rect is not None:

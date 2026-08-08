@@ -25,7 +25,5 @@ LoadAssets()
 #run
 Title_screen().run()
 
-pygame.quit()
-os.system('cls')
-sys.exit()
+Net.shut_down() #fallback
 

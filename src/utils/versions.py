@@ -17,8 +17,12 @@ SETTINGS = {
 }
 SAVE_DATA = {
     "created": False,
-    "modified": False,
-    "version": VERSION
+    "modified": True,
+    "version": VERSION,
+    "play_time": 0.0,
+    "player_pos": [0, 0],
+    "player_inventory": {},
+    "player_coins": 0
 }
 
 
@@ -59,7 +63,7 @@ def update_dict_defaults(user_data: dict, default_data: dict) -> dict:
     overwritten by any existing user values.
     """
     #(hidden for developent use) if user_data["version"] == VERSION: return user_data #already up to date
-    if not user_data["modified"]: return default_data.copy() #uder never adjusted values, they use system defaults
+    if not user_data["modified"]: return default_data.copy() #user never adjusted values, they use system defaults
     # Start with a full copy of the latest defaults
     updated = default_data.copy()
     
@@ -90,4 +94,8 @@ def save_settings(data):
 def save_save_file(index: int, data):
     path = os.path.join(get_save_dir_path(), f"save_{index}.json")
     with open(path, "w") as f: json.dump(data, f, indent=4)
+def save_all_saves(data1, data2, data3):
+    save_save_file(1, data1)
+    save_save_file(2, data2)
+    save_save_file(3, data3)
     
