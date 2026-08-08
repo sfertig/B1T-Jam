@@ -5,6 +5,7 @@ from .utils.versions import load_settings
 def INITSETTINGS(net):
     data = load_settings()
     net.FPS = data["fps"]
+    pygame.display.set_caption(data["title"])
 
 
 class _net:

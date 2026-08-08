@@ -12,7 +12,8 @@ from ..VERSION import VERSION
 SETTINGS = {
     "version": VERSION,
     "modified": False,
-    "fps": 60
+    "fps": 60,
+    "title": "Tearful Tilling"
 }
 SAVE_DATA = {
     "created": False,
