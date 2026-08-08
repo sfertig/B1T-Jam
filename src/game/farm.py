@@ -4,6 +4,7 @@ from ..Net import Net
 from ..utils import *
 from ..objects import Player
 from .menues import PauseMenu
+from .init import INITSAVEDATA
 
 class Farm:
     def __init__(self):
@@ -13,6 +14,9 @@ class Farm:
 
         self.running = True
         self.mouse_down = False
+        self.data = getattr(Net, f"slot_{Net.selected_slot}")
+        
+        INITSAVEDATA(self.data, self.player)
 
     def run(self):
         while self.running:

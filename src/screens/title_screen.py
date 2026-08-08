@@ -54,7 +54,8 @@ class Title_screen:
         if Keys.is_pressed(Keys.escape): Net.shut_down()
 
         for slot in self.slots: slot.update()
-        if Net.selected_slot != None: Farm().run()
+        if Net.selected_slot != None: 
+            Farm().run()
 
 
     def render(self):
@@ -104,5 +105,5 @@ class save_slot:
             self.screen.blit(Assets.get_image("save_slot_play"), (16, 96))
 
         #update
-        self.subscreen.render(Net.cam)
+        self.subscreen.render(Vector2D(0, 0))
 

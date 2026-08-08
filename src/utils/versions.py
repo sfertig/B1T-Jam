@@ -19,6 +19,7 @@ SAVE_DATA = {
     "created": False,
     "modified": True,
     "version": VERSION,
+    "cam_offset": [0, 0],
     "play_time": 0.0,
     "player_pos": [0, 0],
     "player_inventory": {},

@@ -14,6 +14,7 @@ def INITSETTINGS(net):
     net.slot_3 = load_save_file(3)
 
 
+
 class _net:
     def __init__(self):
         #basics
