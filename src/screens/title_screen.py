@@ -2,8 +2,7 @@ import pygame
 import sys
 from ..Net import Net
 from ..utils import Assets, Keys, save_settings, Vector2D, SubScreen, save_all_saves
-
-FPS = 60
+from ..game import Farm
 
 def Title_Image(self):
     while True:
@@ -27,6 +26,7 @@ def Title_Image(self):
 class Title_screen:
     def __init__(self):
         self.bg = "black"
+        self.mouse_down = False
         self.slot_1 = save_slot(1, Vector2D(143, 95))
         self.slot_2 = save_slot(2, Vector2D(271, 95))
         self.slot_3 = save_slot(3, Vector2D(399, 95))
@@ -39,17 +39,22 @@ class Title_screen:
             self.render()
 
     def update(self):
-        Net.dt = Net.clock.tick(FPS)/1000.0
-
+        Net.click = False
+        Net.dt = Net.clock.tick(Net.FPS)/1000.0
         Net.events = pygame.event.get().copy()
 
         for event in Net.events:
             if event.type == pygame.QUIT:
                 self.shut_down()
+            if event.type == pygame.MOUSEBUTTONDOWN: self.mouse_down = True
+            if event.type == pygame.MOUSEBUTTONUP and self.mouse_down: 
+                self.mouse_down = False
+                Net.click = True
 
         if Keys.is_pressed(Keys.escape): Net.shut_down()
 
         for slot in self.slots: slot.update()
+        if Net.selected_slot != None: Farm().run()
 
 
     def render(self):
@@ -78,10 +83,12 @@ class save_slot:
         self.hovered = False
         rect = self.subscreen.get_global_rect(self.screen.get_rect())
         if rect.collidepoint(pygame.mouse.get_pos()): self.hovered = True
-        if self.hovered and pygame.mouse.get_pressed()[0] and not self.created: 
+        if self.hovered and Net.click and not self.created: 
             self.data["created"] = True
             self.empty = False
             self.created = True
+        if self.created and self.hovered and Net.click: Net.selected_slot = self.num
+
         
 
     def render(self):

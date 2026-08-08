@@ -21,6 +21,9 @@ class _net:
         self.clock: pygame.time.Clock = None
         self.FPS = 60
         self.dt: float = 0.0
+        self.click = False
+
+        self.selected_slot = None
 
         self.events = None
         self.build = False
