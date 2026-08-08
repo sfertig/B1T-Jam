@@ -40,9 +40,9 @@ class PlantManager:
             for y in range(32, 320, 16):
                 for x in range(144, 576, 16):
                     self.plants.append(Plant(x, y, "wheat", "none"))
-        for i in range(5):
-            p = random.choice(self.plants)
-            p.state = "resting"
+            for i in range(5):
+                p = random.choice(self.plants)
+                p.state = "resting"
     def update(self):
         for plant in self.plants:
             plant.update()
