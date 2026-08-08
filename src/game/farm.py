@@ -4,10 +4,11 @@ from ..Net import Net
 from ..utils import *
 from ..objects import Player
 from .menues import PauseMenu
-from .init import INITSAVEDATA
+from .init import INITSAVEDATA, SAVEDATA
 
 class Farm:
     def __init__(self):
+        
         self.player = Player(0, 0)
         self.pause_menue = PauseMenu()
         self.pause_menue_active = False
@@ -23,6 +24,7 @@ class Farm:
             self.update()
             self.render()
         Net.selected_slot = None
+        SAVEDATA(self.data, self.player)
 
     def update(self):
         Net.click = False
