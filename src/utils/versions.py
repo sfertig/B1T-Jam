@@ -58,6 +58,7 @@ def update_dict_defaults(user_data: dict, default_data: dict) -> dict:
     Returns a new dict containing all latest default keys, 
     overwritten by any existing user values.
     """
+    #(hidden for developent use) if user_data["version"] == VERSION: return user_data #already up to date
     if not user_data["modified"]: return default_data.copy() #uder never adjusted values, they use system defaults
     # Start with a full copy of the latest defaults
     updated = default_data.copy()
