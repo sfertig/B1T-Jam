@@ -10,10 +10,13 @@ from ..VERSION import VERSION
 ######################
 
 SETTINGS = {
-    "version": VERSION
+    "version": VERSION,
+    "modified": False,
+    "fps": 60
 }
 SAVE_DATA = {
     "created": False,
+    "modified": False,
     "version": VERSION
 }
 
@@ -48,3 +51,41 @@ def init_save_dir():
     if not exists: print(f"[SaveSystem] Save directory initialized at: {path}")
     else: print(f"[SaveSystem] Save directory already exists at: {path}")
     print(f"path: {path}")
+
+def update_dict_defaults(user_data: dict, default_data: dict) -> dict:
+    """
+    Returns a new dict containing all latest default keys, 
+    overwritten by any existing user values.
+    """
+    if not user_data["modified"]: return default_data.copy() #uder never adjusted values, they use system defaults
+    # Start with a full copy of the latest defaults
+    updated = default_data.copy()
+    
+    # Overwrite defaults with whatever keys the user already has saved
+    updated.update(user_data)
+    #overwrite version
+    updated["version"] = VERSION
+    
+    return updated
+
+def load_settings():
+    path = os.path.join(get_save_dir_path(), "settings.json")
+    with open(path, "r") as f: data = json.load(f)
+    data = update_dict_defaults(data, SETTINGS)
+    save_settings(data)
+    return data
+
+def load_save_file(index: int):
+    path = os.path.join(get_save_dir_path(), f"save_{index}.json")
+    with open(path, "r") as f: data = json.load(f)
+    data = update_dict_defaults(data, SAVE_DATA)
+    save_save_file(index, data)
+    return data
+
+def save_settings(data):
+    path = os.path.join(get_save_dir_path(), "settings.json")
+    with open(path, "w") as f: json.dump(data, f, indent=4)
+def save_save_file(index: int, data):
+    path = os.path.join(get_save_dir_path(), f"save_{index}.json")
+    with open(path, "w") as f: json.dump(data, f, indent=4)
+    

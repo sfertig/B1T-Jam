@@ -5,12 +5,11 @@ import os
 
 from src.Net import Net
 from src.screens import Title_screen
-from src.utils import init_save_dir
+from src.utils import init_save_dir, Keys
 
 init_save_dir()
 
 pygame.init()
-
 
 width, height = 640, 360
 
@@ -20,6 +19,8 @@ pygame.display.set_caption("Tearful Tilling")
 
 Net.clock = pygame.time.Clock()
 
+Net.init()
+Keys.add_net(Net)
 #run
 Title_screen().run()
 

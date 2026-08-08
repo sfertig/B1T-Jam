@@ -1,5 +1,4 @@
 import pygame
-from ..Net import Net
 
 class _keys:
     def __init__(self):
@@ -63,7 +62,7 @@ class _keys:
         self.mouse_x, self.mouse_y = 0, 0
 
     def is_pressed(self, key):
-        events = Net.events
+        events = self.Net.events
         if events is None: return False
         for event in events:
             if event.type == pygame.KEYDOWN:
@@ -78,6 +77,8 @@ class _keys:
     def is_held(self, key):
         keys = pygame.key.get_pressed()
         return keys[key]
+
+    def add_net(self, net): self.Net = net
 
     def update(self): self.mouse_x, self.mouse_y = pygame.mouse.get_pos()
 
